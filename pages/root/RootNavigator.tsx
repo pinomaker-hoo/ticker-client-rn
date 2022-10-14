@@ -6,6 +6,7 @@ import BuyScreen from './BuyScreen';
 import LoginScreen from './LoginScreen';
 import MenuScreen from './MenuScreen';
 import RegisterScreen from './Register';
+import TicketBuyScreen from './TicketBuyScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -41,6 +42,11 @@ export default function RootNavigator() {
         <Stack.Screen
           name="Alert"
           component={AlertScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="TicketBuy"
+          component={TicketBuyScreen}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

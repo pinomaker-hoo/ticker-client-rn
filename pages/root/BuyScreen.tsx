@@ -5,6 +5,10 @@ export default function BuyScreen({navigation}: any) {
     navigation.navigate('Bottom');
   };
 
+  const onPressBuy = () => {
+    navigation.navigate('TicketBuy');
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -24,7 +28,7 @@ export default function BuyScreen({navigation}: any) {
             <Text style={styles.listText}>중식</Text>
           </View>
           <View style={styles.ticketBox}>
-            <View style={styles.ticket}>
+            <TouchableOpacity style={styles.ticket} onPress={onPressBuy}>
               <Image
                 style={styles.ticketImage}
                 source={require('../../assets/ticket1.jpeg')}
@@ -39,7 +43,7 @@ export default function BuyScreen({navigation}: any) {
                   <Text style={styles.ticketText4}>식권 구매</Text>
                 </View>
               </View>
-            </View>
+            </TouchableOpacity>
           </View>
         </View>
       </View>
