@@ -1,7 +1,9 @@
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import BottomTabNavigator from '../bottom/BottomTabNavigator';
+import BuyScreen from './BuyScreen';
 import LoginScreen from './LoginScreen';
+import MenuScreen from './MenuScreen';
 import RegisterScreen from './Register';
 
 const Stack = createNativeStackNavigator();
@@ -23,6 +25,16 @@ export default function RootNavigator() {
         <Stack.Screen
           name="Bottom"
           component={BottomTabNavigator}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Buy"
+          component={BuyScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Ticket"
+          component={MenuScreen}
           options={{headerShown: false}}
         />
       </Stack.Navigator>
