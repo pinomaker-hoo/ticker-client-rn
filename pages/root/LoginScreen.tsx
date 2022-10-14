@@ -9,7 +9,13 @@ import {
   View,
 } from 'react-native';
 import {Color} from '../../assets/color';
-import {login, nullCheck} from '../../api/auth';
+// import {login, nullCheck} from '../../api/auth';
+import {
+  KakaoOAuthToken,
+  login,
+  getProfile,
+  loginWithKakaoAccount,
+} from '@react-native-seoul/kakao-login';
 
 export default function LoginScreen({navigation}: any) {
   const [email, setEmail] = useState('');
@@ -21,6 +27,11 @@ export default function LoginScreen({navigation}: any) {
     // const { data } = await login(email, password)
     // if (!data) return Alert.alert("로그인 실패!")
     navigation.navigate('Bottom');
+  };
+
+  const signInWithKakao = async (): Promise<void> => {
+    const result = await getProfile();
+    console.log(10, result);
   };
 
   return (
@@ -60,7 +71,7 @@ export default function LoginScreen({navigation}: any) {
         </Text>
       </View>
       <View style={styles.kakaoBox}>
-        <TouchableOpacity style={styles.kakaoBtn}>
+        <TouchableOpacity style={styles.kakaoBtn} onPress={signInWithKakao}>
           <Text>카카오톡 로그인</Text>
         </TouchableOpacity>
       </View>
