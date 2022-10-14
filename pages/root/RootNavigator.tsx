@@ -7,6 +7,8 @@ import LoginScreen from './LoginScreen';
 import MenuScreen from './MenuScreen';
 import RegisterScreen from './Register';
 import TicketBuyScreen from './TicketBuyScreen';
+import TicketImageScreen from './TicketImage';
+import TicketScreen from './TicketScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -36,7 +38,7 @@ export default function RootNavigator() {
         />
         <Stack.Screen
           name="Ticket"
-          component={MenuScreen}
+          component={TicketScreen}
           options={{headerShown: false}}
         />
         <Stack.Screen
@@ -47,6 +49,16 @@ export default function RootNavigator() {
         <Stack.Screen
           name="TicketBuy"
           component={TicketBuyScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Menu"
+          component={MenuScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="TicketImage"
+          component={TicketImageScreen}
           options={{headerShown: false}}
         />
       </Stack.Navigator>
