@@ -1,6 +1,4 @@
-import {View} from 'react-native';
-import {TouchableOpacity} from 'react-native-gesture-handler';
-import {Text} from 'react-native-paper';
+import {View, TouchableOpacity, Text} from 'react-native';
 
 export default function Header() {
   return (
