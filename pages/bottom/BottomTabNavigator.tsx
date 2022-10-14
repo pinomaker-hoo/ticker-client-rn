@@ -1,5 +1,7 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import React from 'react';
+import AdminScreen from './AdminScreen';
+import DetailScreen from './DetailScreen';
 import HomeScreen from './HomeScreen';
 
 const BottomTab = createBottomTabNavigator();
@@ -12,7 +14,7 @@ export default function BottomTabNavigator() {
     >
       <BottomTab.Screen
         name="Map"
-        component={HomeScreen}
+        component={DetailScreen}
         options={{
           title: 'Map',
           tabBarIcon: () => null,
@@ -28,7 +30,7 @@ export default function BottomTabNavigator() {
       />
       <BottomTab.Screen
         name="Admin"
-        component={HomeScreen}
+        component={AdminScreen}
         options={{
           title: 'Admin',
           tabBarIcon: () => null,

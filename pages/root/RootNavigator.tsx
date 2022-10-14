@@ -1,6 +1,7 @@
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import BottomTabNavigator from '../bottom/BottomTabNavigator';
+import AlertScreen from './AlertScreen';
 import BuyScreen from './BuyScreen';
 import LoginScreen from './LoginScreen';
 import MenuScreen from './MenuScreen';
@@ -35,6 +36,11 @@ export default function RootNavigator() {
         <Stack.Screen
           name="Ticket"
           component={MenuScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Alert"
+          component={AlertScreen}
           options={{headerShown: false}}
         />
       </Stack.Navigator>
