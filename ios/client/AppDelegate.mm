@@ -1,10 +1,9 @@
 #import "AppDelegate.h"
 
-//#import <RNKakaoLogins.h>
 #import <React/RCTBridge.h>
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
-
+//#import <RNKakaoLogins.h>
 #import <React/RCTAppSetupUtils.h>
 
 #if RCT_NEW_ARCH_ENABLED
@@ -31,7 +30,6 @@ static NSString *const kRNConcurrentRoot = @"concurrentRoot";
 
 
 @implementation AppDelegate
-
 //- (BOOL)application:(UIApplication *)app
 //     openURL:(NSURL *)url
 //     options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
