@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import Calendar from 'react-native-calendars/src/calendar';
 import {formatDate} from '../../common/common';
 import constant from '../../common/constant';
@@ -42,20 +42,34 @@ export default function HomeScreen({navigation}: any) {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <TouchableOpacity style={styles.headerBtn} onPress={onPressMenuBtn}>
-          <Text>메뉴</Text>
+        <TouchableOpacity style={styles.headerBtn1} onPress={onPressMenuBtn}>
+          <Image
+            style={styles.headerImage}
+            source={require('../../assets/list.png')}
+          />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.headerBtn} onPress={onPressAlerttBtn}>
-          <Text>알림</Text>
+        <TouchableOpacity style={styles.headerBtn2} onPress={onPressAlerttBtn}>
+          <Image
+            style={styles.headerImage}
+            source={require('../../assets/bell.png')}
+          />
         </TouchableOpacity>
       </View>
       <View style={styles.body}>
         <View style={styles.btnBox}>
-          <TouchableOpacity style={styles.menuBox} onPress={onPressBuyBtn}>
-            <Text>식권 구매하기</Text>
+          <TouchableOpacity style={styles.menuBox1} onPress={onPressBuyBtn}>
+            <Text style={styles.menuText}>식권 구매하기</Text>
+            <Image
+              style={styles.menuImage1}
+              source={require('../../assets/buylogo.png')}
+            />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.menuBox} onPress={onPressTicketBtn}>
-            <Text>식권함</Text>
+          <TouchableOpacity style={styles.menuBox2} onPress={onPressTicketBtn}>
+            <Text style={styles.menuText}>식권함</Text>
+            <Image
+              style={styles.menuImage2}
+              source={require('../../assets/ticketlogo.png')}
+            />
           </TouchableOpacity>
         </View>
         <View style={styles.date}>
@@ -77,33 +91,60 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'white',
   },
-  header: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 10,
-    flexDirection: 'row',
-  },
-  headerBtn: {
-    marginLeft: 30,
-  },
   body: {
     flex: 7,
     alignItems: 'center',
-    marginTop: 100,
   },
-  menuBox: {
+  menuBox1: {
     width: constant.width - 50,
     height: 80,
     borderWidth: 1,
     borderColor: 'black',
-
-    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
+  },
+  menuBox2: {
+    width: constant.width - 50,
+    height: 80,
+    borderWidth: 1,
+    borderColor: 'black',
+    marginTop: 30,
+    alignItems: 'center',
+    flexDirection: 'row',
   },
   btnBox: {flex: 1},
-  date: {flex: 1.2},
+  date: {flex: 1.2, marginTop: -30},
   calendar: {
     borderBottomWidth: 1,
     borderBottomColor: '#e0e0e0',
+  },
+  menuText: {
+    marginLeft: 20,
+  },
+  menuImage1: {
+    width: 50,
+    height: 50,
+    marginLeft: 180,
+  },
+  menuImage2: {
+    width: 50,
+    height: 50,
+    marginLeft: 220,
+  },
+  headerImage: {
+    width: 25,
+    height: 25,
+  },
+  header: {
+    flex: 1,
+    alignItems: 'center',
+    marginTop: 20,
+    flexDirection: 'row',
+  },
+  headerBtn1: {
+    marginLeft: 30,
+  },
+  headerBtn2: {
+    marginLeft: 280,
   },
 });

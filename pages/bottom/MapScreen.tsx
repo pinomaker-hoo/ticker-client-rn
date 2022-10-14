@@ -1,6 +1,6 @@
-import {Text, View, StyleSheet, TouchableOpacity, Image} from 'react-native';
+import {Text, View, StyleSheet, Image, TouchableOpacity} from 'react-native';
 
-export default function AdminScreen({navigation}: any) {
+export default function MapScreen({navigation}: any) {
   const onPressMenuBtn = () => {
     navigation.navigate('Menu');
   };
@@ -28,7 +28,6 @@ export default function AdminScreen({navigation}: any) {
     </View>
   );
 }
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
