@@ -14,7 +14,7 @@ import RadioForm from 'react-native-simple-radio-button';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 
 export default function RegisterScreen({navigation}: any) {
-  const [photo, setPhoto]: any[] = React.useState(null);
+  const [photo, setPhoto]: any[] = useState(null);
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [date, setDate] = useState('2022-01-01');
   const [male, setMale] = useState(true);
