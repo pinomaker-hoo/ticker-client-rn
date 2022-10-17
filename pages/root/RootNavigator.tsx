@@ -2,6 +2,9 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import BottomTabNavigator from '../bottom/BottomTabNavigator';
 import AlertScreen from './AlertScreen';
+import BoardDetailScreen from './BoardDetailScreen';
+import BoardScreen from './BoardScreen';
+import BoardWriteScreen from './BoardWriteScreen';
 import BuyScreen from './BuyScreen';
 import LoginScreen from './LoginScreen';
 import MenuScreen from './MenuScreen';
@@ -59,6 +62,21 @@ export default function RootNavigator() {
         <Stack.Screen
           name="TicketImage"
           component={TicketImageScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Board"
+          component={BoardScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="BoardDetail"
+          component={BoardDetailScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="BoardWrite"
+          component={BoardWriteScreen}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

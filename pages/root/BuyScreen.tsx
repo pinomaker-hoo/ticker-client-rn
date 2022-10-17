@@ -1,10 +1,11 @@
+import React from 'react';
 import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
+import Ticket from '../../components/Ticket';
 
 export default function BuyScreen({navigation}: any) {
   const onPressHome = () => {
     navigation.navigate('Bottom');
   };
-
   const onPressBuy = () => {
     navigation.navigate('TicketBuy');
   };
@@ -28,22 +29,7 @@ export default function BuyScreen({navigation}: any) {
             <Text style={styles.listText}>중식</Text>
           </View>
           <View style={styles.ticketBox}>
-            <TouchableOpacity style={styles.ticket} onPress={onPressBuy}>
-              <Image
-                style={styles.ticketImage}
-                source={require('../../assets/ticket1.jpeg')}
-              />
-              <View style={styles.ticketBody}>
-                <View style={styles.ticketLeftBox}>
-                  <Text style={styles.ticketText1}>한식</Text>
-                  <Text style={styles.ticketText2}>동양미래대 식권 1매</Text>
-                  <Text style={styles.ticketText3}>4,500원</Text>
-                </View>
-                <View style={styles.ticketRightBox}>
-                  <Text style={styles.ticketText4}>식권 구매</Text>
-                </View>
-              </View>
-            </TouchableOpacity>
+            <Ticket onPress={onPressBuy} />
           </View>
         </View>
       </View>
@@ -92,42 +78,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  ticket: {
-    width: 250,
-    height: 250,
-    borderWidth: 1,
-  },
-  ticketImage: {
-    width: 248,
-    height: 125,
-  },
-  ticketBody: {
-    flexDirection: 'row',
-    height: 123,
-    width: 248,
-  },
-  ticketRightBox: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    flex: 1,
-    backgroundColor: 'blue',
-  },
-  ticketLeftBox: {
-    flex: 2,
-  },
-  ticketText1: {
-    fontSize: 10,
-    marginLeft: 10,
-    marginTop: 10,
-  },
-  ticketText2: {
-    fontSize: 15,
-    marginLeft: 10,
-    marginTop: 50,
-    fontWeight: 'bold',
-  },
-  ticketText3: {fontSize: 12, marginLeft: 10, marginTop: 5},
-  ticketText4: {color: 'white', fontWeight: 'bold'},
   header: {
     flex: 1,
     alignItems: 'center',

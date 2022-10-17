@@ -1,6 +1,7 @@
-import {useState} from 'react';
+import React, {useState} from 'react';
 import {
   Alert,
+  Button,
   Image,
   StyleSheet,
   Text,
@@ -9,30 +10,54 @@ import {
   View,
 } from 'react-native';
 import {Color} from '../../assets/color';
-// import {login, nullCheck} from '../../api/auth';
-import {
-  KakaoOAuthToken,
-  login,
-  getProfile,
-  loginWithKakaoAccount,
-} from '@react-native-seoul/kakao-login';
+import {login, nullCheck} from '../../api/auth';
+
+import {NaverLogin, getProfile} from '@react-native-seoul/naver-login';
+
+const iosKeys = {
+  kConsumerKey: 'W9xVpecA1cMK2mrjELZk',
+  kConsumerSecret: '0I7Gq4kTEb',
+  kServiceAppName: 'Dongyang Order',
+  kServiceAppUrlScheme: 'naverLogin',
+};
 
 export default function LoginScreen({navigation}: any) {
+  const [naverToken, setNaverToken]: any = useState();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const onPressLogin = async () => {
-    // if (!nullCheck(email)) return Alert.alert("이메일을 입력하세요.")
-    // if (!nullCheck(password)) return Alert.alert("비밀번호를 입력하세요.")
-    // const { data } = await login(email, password)
-    // if (!data) return Alert.alert("로그인 실패!")
+    console.log(email, password);
+    if (!nullCheck(email)) return Alert.alert('이메일을 입력하세요.');
+    if (!nullCheck(password)) return Alert.alert('비밀번호를 입력하세요.');
+    // const {data} = await login(email, password);
+    // if (!data) return Alert.alert('로그인 실패!');s
     navigation.navigate('Bottom');
   };
 
-  const signInWithKakao = async (): Promise<void> => {
-    const result = await getProfile();
-    console.log(10, result);
+  const naverLogin = (props: any) => {
+    return new Promise((resolve, reject) => {
+      NaverLogin.login(props, (err, token: any) => {
+        console.log(`\n\n  Token is fetched  :: ${token} \n\n`);
+        setNaverToken(token);
+        if (err) {
+          reject(err);
+          return;
+        }
+        resolve(token);
+      });
+    });
   };
+
+  const getUserProfile = async () => {
+    const profileResult = await getProfile(naverToken.accessToken);
+    if (profileResult.resultcode === '024') {
+      Alert.alert('로그인 실패', profileResult.message);
+      return;
+    }
+    console.log('profileResult', profileResult);
+  };
+  console.log(naverToken);
 
   return (
     <View style={styles.container}>
@@ -71,9 +96,13 @@ export default function LoginScreen({navigation}: any) {
         </Text>
       </View>
       <View style={styles.kakaoBox}>
-        <TouchableOpacity style={styles.kakaoBtn} onPress={signInWithKakao}>
-          <Text>카카오톡 로그인</Text>
+        <TouchableOpacity
+          style={styles.kakaoBtn}
+          onPress={() => naverLogin(iosKeys)}
+        >
+          <Text>네이버 로그인</Text>
         </TouchableOpacity>
+        <Button title="회원정보 가져오기" onPress={getUserProfile} />
       </View>
     </View>
   );

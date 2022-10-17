@@ -1,11 +1,4 @@
-import {
-  View,
-  StyleSheet,
-  Image,
-  Text,
-  Touchable,
-  TouchableOpacity,
-} from 'react-native';
+import {View, StyleSheet, Image, Text, TouchableOpacity} from 'react-native';
 import constant from '../../common/constant';
 
 export default function TicketBuyScreen({navigation}: any) {

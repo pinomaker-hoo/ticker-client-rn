@@ -1,11 +1,12 @@
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import Ticket from '../../components/Ticket';
 
 export default function TicketScreen({navigation}: any) {
   const onPressHome = () => {
     navigation.navigate('Bottom');
   };
 
-  const onPressTicketImage = () => {
+  const onPressTicket = () => {
     navigation.navigate('TicketImage');
   };
 
@@ -17,9 +18,7 @@ export default function TicketScreen({navigation}: any) {
         </TouchableOpacity>
       </View>
       <View style={styles.body}>
-        <TouchableOpacity style={styles.ticketBox} onPress={onPressTicketImage}>
-          <Text style={styles.text}>티켓</Text>
-        </TouchableOpacity>
+        <Ticket onPress={onPressTicket} />
       </View>
     </View>
   );
