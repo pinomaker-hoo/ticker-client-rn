@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import {Color} from '../../assets/color';
 import {login, nullCheck} from '../../api/auth';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {NaverLogin, getProfile} from '@react-native-seoul/naver-login';
 
 const iosKeys = {
@@ -32,6 +32,8 @@ export default function LoginScreen({navigation}: any) {
     if (!nullCheck(password)) return Alert.alert('비밀번호를 입력하세요.');
     const {data} = await login(email, password);
     if (!data) return Alert.alert('로그인 실패!');
+    await AsyncStorage.setItem('accesstoken', JSON.stringify(data.token));
+    await AsyncStorage.setItem('user', JSON.stringify(data.user));
     navigation.navigate('Bottom');
   };
 
