@@ -3,17 +3,24 @@ import React from 'react';
 import {TouchableOpacity, Image, View, StyleSheet, Text} from 'react-native';
 
 const Ticket = (props: any) => {
+  const img =
+    props.data.kind === 0
+      ? require('../assets/ticket1.jpeg')
+      : require('../assets/ticket2.jpeg');
+
   return (
-    <TouchableOpacity style={styles.ticket} onPress={props.onPress}>
-      <Image
-        style={styles.ticketImage}
-        source={require('../assets/ticket1.jpeg')}
-      />
+    <TouchableOpacity
+      style={styles.ticket}
+      onPress={() => props.onPress(props.data)}
+    >
+      <Image style={styles.ticketImage} source={img} />
       <View style={styles.ticketBody}>
         <View style={styles.ticketLeftBox}>
-          <Text style={styles.ticketText1}>한식</Text>
-          <Text style={styles.ticketText2}>동양미래대 식권 1매</Text>
-          <Text style={styles.ticketText3}>4,500원</Text>
+          <Text style={styles.ticketText1}>
+            {props.data.kind === 0 ? '한식' : '중식'}
+          </Text>
+          <Text style={styles.ticketText2}>{props.data.title}</Text>
+          <Text style={styles.ticketText3}>{props.data.price}</Text>
         </View>
         <View style={styles.ticketRightBox}>
           <Text style={styles.ticketText4}>식권 구매</Text>
@@ -34,6 +41,7 @@ const styles = StyleSheet.create({
     width: 250,
     height: 250,
     borderWidth: 1,
+    marginBottom: 30,
   },
   ticketImage: {
     width: 248,

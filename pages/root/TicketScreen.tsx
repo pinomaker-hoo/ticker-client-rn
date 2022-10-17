@@ -18,7 +18,7 @@ export default function TicketScreen({navigation}: any) {
         </TouchableOpacity>
       </View>
       <View style={styles.body}>
-        <Ticket onPress={onPressTicket} />
+        {/* <Ticket onPress={onPressTicket} /> */}
       </View>
     </View>
   );

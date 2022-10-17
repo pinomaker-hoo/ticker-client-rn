@@ -50,9 +50,8 @@ export default function RegisterScreen({navigation}: any) {
   };
 
   const onPressRegisterBtn = () => {
-    // console.log(email, password, photo, male, date, name);
-    const data = register(email, password, photo, male, date, name);
-    console.log(data);
+    const data = register(photo, {email, password, name, male, date});
+    // console.log(data);
   };
 
   return (

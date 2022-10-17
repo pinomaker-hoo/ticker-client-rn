@@ -1,15 +1,38 @@
-import React from 'react';
-import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  ScrollView,
+} from 'react-native';
+import {getTicketList} from '../../api/ticket';
 import Ticket from '../../components/Ticket';
 
 export default function BuyScreen({navigation}: any) {
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [state, setState] = useState(0);
+
   const onPressHome = () => {
     navigation.navigate('Bottom');
   };
-  const onPressBuy = () => {
-    navigation.navigate('TicketBuy');
+  const onPressBuy = (data: any) => {
+    navigation.navigate('TicketBuy', {data});
   };
 
+  useEffect(() => {
+    callApi();
+  }, []);
+
+  const callApi = async () => {
+    const {data} = await getTicketList();
+    setData(() => data);
+    setLoading(() => false);
+  };
+
+  console.log(data);
+  if (loading) return null;
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -24,13 +47,36 @@ export default function BuyScreen({navigation}: any) {
         </View>
         <View style={styles.bottomBox}>
           <View style={styles.choice}>
-            <Text style={styles.listTextOne}>전체</Text>
-            <Text style={styles.listText}>한식</Text>
-            <Text style={styles.listText}>중식</Text>
+            <TouchableOpacity onPress={() => setState(0)}>
+              <Text style={styles.listTextOne}>전체</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => setState(1)}>
+              <Text style={styles.listText}>한식</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => setState(2)}>
+              <Text style={styles.listText}>중식</Text>
+            </TouchableOpacity>
           </View>
-          <View style={styles.ticketBox}>
-            <Ticket onPress={onPressBuy} />
-          </View>
+          <ScrollView>
+            <View style={styles.ticketBox}>
+              {state === 0 &&
+                data.map((item: any) => (
+                  <Ticket data={item} onPress={onPressBuy} />
+                ))}
+              {state === 1 &&
+                data
+                  .filter((item: any) => item.kind === 0)
+                  .map((item: any) => (
+                    <Ticket data={item} onPress={onPressBuy} />
+                  ))}
+              {state === 2 &&
+                data
+                  .filter((item: any) => item.kind === 1)
+                  .map((item: any) => (
+                    <Ticket data={item} onPress={onPressBuy} />
+                  ))}
+            </View>
+          </ScrollView>
         </View>
       </View>
     </View>

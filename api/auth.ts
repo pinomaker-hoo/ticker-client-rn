@@ -1,6 +1,4 @@
 'use strict';
-
-import {DateTimePickerAndroid} from '@react-native-community/datetimepicker';
 import axios from 'axios';
 
 const auth = axios.create({
@@ -26,44 +24,36 @@ export const nullCheck = (data: string): boolean => {
   return true;
 };
 
-export const register = async (
-  email: string,
-  password: string,
-  photo: any,
-  male: boolean,
-  birth: string,
-  name: string,
-) => {
+export const register = async (photo: any, body: any) => {
   try {
-    const res = await fetch('http://localhost:3050/auth', {
+    const formData: any = await createFormData(photo, body);
+    const data = formData._parts;
+    console.log(data);
+    const res = await auth({
       method: 'post',
-      body: createFormData(photo, email, password, male, birth, name),
+      url: '/',
+      data: data,
+      headers: {
+        'content-type': 'multipart/form-data',
+      },
     });
-    return res.json();
+    console.log(data);
   } catch (err) {
-    console.log(err);
+    console.log('err', err);
   }
 };
 
-const createFormData = (
-  photo: any,
-  email: string,
-  password: string,
-  male: boolean,
-  birth: string,
-  name: string,
-) => {
-  const data = new FormData();
-  // const uri: string = photo.uri;
-  data.append('photo', {
-    name: photo.fileName,
-    type: photo.type,
-    uri: photo.uri,
+const createFormData = async (photo: any, body: any) => {
+  const formData = new FormData();
+  formData.append('photo', {
+    name: photo.assets[0].fileName,
+    type: photo.assets[0].type,
+    uri: photo.assets[0].uri.replace('file://', ''),
   });
-  data.append('email', email);
-  data.append('password', password);
-  data.append('male', male);
-  data.append('birth', birth);
-  data.append('name', name);
-  return data;
+
+  Object.keys(body).forEach(key => {
+    formData.append(key, body[key]);
+  });
+
+  return formData;
 };
