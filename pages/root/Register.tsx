@@ -12,12 +12,16 @@ import {launchImageLibrary} from 'react-native-image-picker';
 import {Color} from '../../assets/color';
 import RadioForm from 'react-native-simple-radio-button';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import {register} from '../../api/auth';
 
 export default function RegisterScreen({navigation}: any) {
   const [photo, setPhoto]: any[] = useState(null);
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [date, setDate] = useState('2022-01-01');
   const [male, setMale] = useState(true);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [name, setName] = useState('');
 
   const radio_props = [
     {label: '남자', value: 1},
@@ -46,7 +50,9 @@ export default function RegisterScreen({navigation}: any) {
   };
 
   const onPressRegisterBtn = () => {
-    console.log(male);
+    // console.log(email, password, photo, male, date, name);
+    const data = register(email, password, photo, male, date, name);
+    console.log(data);
   };
 
   return (
@@ -63,13 +69,25 @@ export default function RegisterScreen({navigation}: any) {
         <Button title="Choose Photo" onPress={handleChoosePhoto} />
       </View>
       <View style={styles.inputBox1}>
-        <TextInput style={styles.textInput} placeholder="이메일" />
-        <TextInput style={styles.textInput} placeholder="비밀번호" />
+        <TextInput
+          style={styles.textInput}
+          placeholder="이메일"
+          onChangeText={email => setEmail(email)}
+        />
+        <TextInput
+          style={styles.textInput}
+          placeholder="비밀번호"
+          onChangeText={password => setPassword(password)}
+        />
         <TextInput style={styles.textInput} placeholder="비밀번호 확인" />
       </View>
       <View style={styles.inputBox2}>
         <Text style={styles.box2Text}>이름</Text>
-        <TextInput style={styles.textInput} placeholder="이름" />
+        <TextInput
+          style={styles.textInput}
+          placeholder="이름"
+          onChangeText={name => setName(name)}
+        />
       </View>
       <View style={styles.maleBox}>
         <Text style={styles.maleText}>성별</Text>

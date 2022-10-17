@@ -30,8 +30,8 @@ export default function LoginScreen({navigation}: any) {
     console.log(email, password);
     if (!nullCheck(email)) return Alert.alert('이메일을 입력하세요.');
     if (!nullCheck(password)) return Alert.alert('비밀번호를 입력하세요.');
-    // const {data} = await login(email, password);
-    // if (!data) return Alert.alert('로그인 실패!');s
+    const {data} = await login(email, password);
+    if (!data) return Alert.alert('로그인 실패!');
     navigation.navigate('Bottom');
   };
 
