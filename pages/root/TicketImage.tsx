@@ -1,7 +1,39 @@
-import {View, StyleSheet, Image, Text, TouchableOpacity} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  Image,
+  Text,
+  TouchableOpacity,
+  Alert,
+} from 'react-native';
+import {useTicket} from '../../api/ticket';
 import constant from '../../common/constant';
 
-export default function TicketImageScreen({navigation}: any) {
+export default function TicketImageScreen(props: any) {
+  const onPress = async () => {
+    const {data}: any = await useTicket(Number(props.route.params.data.idx));
+    console.log(data);
+    if (data) props.navigation.navigate('Bottom');
+  };
+
+  const onPress2 = async () => {
+    Alert.alert(
+      '정말로 사용하시겠습니까??',
+      '',
+      [
+        {
+          text: '네',
+          onPress: onPress,
+        },
+        {
+          text: '아니요.',
+          style: 'cancel',
+        },
+      ],
+      {cancelable: false},
+    );
+  };
+  console.log(props.route.params.data);
   return (
     <View style={styles.container}>
       <View style={styles.topBox}>
@@ -12,16 +44,18 @@ export default function TicketImageScreen({navigation}: any) {
       </View>
       <View style={styles.middleBox}>
         <View style={styles.textBox}>
-          <Text style={styles.text1}>한식</Text>
-          <Text style={styles.text2}>한식 식권 1매</Text>
+          <Text style={styles.text1}>
+            {props.route.params.data.ticket.kind === 0 ? '한식' : '중식'}
+          </Text>
+          <Text style={styles.text2}>
+            {props.route.params.data.ticket.title}
+          </Text>
         </View>
-        {/* <BarcodeCreatorViewManager
-          value={'100'}
-          background={'#000000'}
-          foregroundColor={'#FFFFFF'}
-          format={BarcodeFormat.QR}
-          style={styles.box}
-        /> */}
+        <View style={styles.box}>
+          <TouchableOpacity style={styles.useBoxBtn} onPress={onPress2}>
+            <Text style={styles.useBoxText}>사용하기</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );
@@ -55,5 +89,17 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: 'bold',
   },
-  box: {},
+  box: {justifyContent: 'center', alignItems: 'center', marginTop: 200},
+  useBoxBtn: {
+    width: 200,
+    height: 50,
+    borderRadius: 10,
+    backgroundColor: 'blue',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  useBoxText: {
+    color: 'white',
+    fontSize: 20,
+  },
 });

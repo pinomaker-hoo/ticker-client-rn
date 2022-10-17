@@ -3,13 +3,17 @@ import constant from '../../common/constant';
 
 export default function TicketBuyScreen(props: any) {
   const onPress = () => {
-    props.navigation.navigate('Buy');
+    props.navigation.navigate('EnterPassword', {
+      data: props.route.params.data.idx,
+    });
   };
 
   const img =
     props.route.params.data.kind === 0
       ? require('../../assets/ticket1.jpeg')
       : require('../../assets/ticket2.jpeg');
+
+  console.log(props.route.params.data.idx);
   return (
     <View style={styles.container}>
       <View style={styles.topBox}>

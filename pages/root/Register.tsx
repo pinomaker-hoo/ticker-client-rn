@@ -15,7 +15,7 @@ import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import {register} from '../../api/auth';
 
 export default function RegisterScreen({navigation}: any) {
-  const [photo, setPhoto]: any[] = useState(null);
+  const [photo, setPhoto]: any = useState(null);
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [date, setDate] = useState('2022-01-01');
   const [male, setMale] = useState(true);
@@ -31,7 +31,7 @@ export default function RegisterScreen({navigation}: any) {
   const handleChoosePhoto = () => {
     launchImageLibrary({mediaType: 'photo'}, (response: any) => {
       if (response) {
-        setPhoto(response);
+        setPhoto(response.assets[0]);
       }
     });
   };
@@ -49,9 +49,9 @@ export default function RegisterScreen({navigation}: any) {
     hideDatePicker();
   };
 
-  const onPressRegisterBtn = () => {
-    const data = register(photo, {email, password, name, male, date});
-    // console.log(data);
+  const onPressRegisterBtn = async () => {
+    const res: any = await register({email, name, password, date, male});
+    if (res.data) return navigation.navigate('Login');
   };
 
   return (
@@ -61,7 +61,7 @@ export default function RegisterScreen({navigation}: any) {
       </View>
       <View style={styles.imgBox}>
         {photo ? (
-          <Image style={styles.img} source={{uri: photo.assets[0].uri}} />
+          <Image style={styles.img} source={{uri: photo.uri}} />
         ) : (
           <Image style={styles.img} source={require('../../assets/user.png')} />
         )}

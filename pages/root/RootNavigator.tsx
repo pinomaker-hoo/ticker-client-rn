@@ -8,10 +8,12 @@ import BoardWriteScreen from './BoardWriteScreen';
 import BuyScreen from './BuyScreen';
 import LoginScreen from './LoginScreen';
 import MenuScreen from './MenuScreen';
+import SetPasswordScreen from './SetPasswordScreen';
 import RegisterScreen from './Register';
 import TicketBuyScreen from './TicketBuyScreen';
 import TicketImageScreen from './TicketImage';
 import TicketScreen from './TicketScreen';
+import EnterPasswordScreen from './EnterPasswordScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -77,6 +79,16 @@ export default function RootNavigator() {
         <Stack.Screen
           name="BoardWrite"
           component={BoardWriteScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="SetPassword"
+          component={SetPasswordScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="EnterPassword"
+          component={EnterPasswordScreen}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

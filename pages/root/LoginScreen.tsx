@@ -34,6 +34,7 @@ export default function LoginScreen({navigation}: any) {
     if (!data) return Alert.alert('로그인 실패!');
     await AsyncStorage.setItem('accesstoken', JSON.stringify(data.token));
     await AsyncStorage.setItem('user', JSON.stringify(data.user));
+    if (!data.user.pass) return navigation.navigate('SetPassword');
     navigation.navigate('Bottom');
   };
 

@@ -1,17 +1,32 @@
-import React, {useState} from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, {useEffect, useState} from 'react';
 import {
   Text,
   View,
   StyleSheet,
   TouchableOpacity,
   Image,
-  Button,
   Alert,
 } from 'react-native';
 import {launchImageLibrary} from 'react-native-image-picker';
+import {findUser} from '../../api/auth';
+import {updatePoint} from '../../api/point';
 
 export default function AdminScreen({navigation}: any) {
   const [photo, setPhoto]: any[] = useState(null);
+  const [user, setUser]: any = useState();
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    callApi();
+    console.log(user);
+  }, []);
+
+  const callApi = async () => {
+    const {data}: any = await findUser();
+    setUser(() => data);
+    setLoading(() => false);
+  };
 
   const handleChoosePhoto = () => {
     launchImageLibrary({mediaType: 'photo'}, (response: any) => {
@@ -27,6 +42,20 @@ export default function AdminScreen({navigation}: any) {
 
   const onPressAlerttBtn = () => {
     navigation.navigate('Alert');
+  };
+
+  const onPressPassword = () => {
+    navigation.navigate('SetPassword');
+  };
+
+  const onPressLogoutBtn = async () => {
+    await AsyncStorage.removeItem('user');
+    await AsyncStorage.removeItem('accesstoken');
+    navigation.navigate('Login');
+  };
+
+  const onPressAddPoint = async () => {
+    const {data}: any = updatePoint(5000);
   };
 
   const onPressDelete = () => {
@@ -48,6 +77,7 @@ export default function AdminScreen({navigation}: any) {
     );
   };
 
+  if (loading) return null;
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -67,7 +97,8 @@ export default function AdminScreen({navigation}: any) {
       <View style={styles.body}>
         <View style={styles.topBox}>
           <Text style={styles.topBoxText}>안녕하세요.</Text>
-          <Text style={styles.topBoxText}>도연님</Text>
+          <Text style={styles.topBoxText}>{user.name}님</Text>
+          <Text style={styles.topBoxText}>포인트 : {user.point[0].money}</Text>
         </View>
         <View style={styles.middleBox}>
           <TouchableOpacity onPress={handleChoosePhoto}>
@@ -80,8 +111,11 @@ export default function AdminScreen({navigation}: any) {
               />
             )}
           </TouchableOpacity>
-          <Text style={styles.middleBoxText}>inhoo23@naver.com</Text>
-          <TouchableOpacity style={styles.middleBoxBtn}>
+          <Text style={styles.middleBoxText}>{user.email}</Text>
+          <TouchableOpacity
+            style={styles.middleBoxBtn}
+            onPress={onPressLogoutBtn}
+          >
             <Text style={styles.middleBoxBtnText}>로그아웃</Text>
           </TouchableOpacity>
         </View>
@@ -95,11 +129,14 @@ export default function AdminScreen({navigation}: any) {
           <TouchableOpacity>
             <Text style={styles.bottomBoxText}>비밀번호 재설정</Text>
           </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={onPressPassword}>
             <Text style={styles.bottomBoxText}>결제 비밀번호 재설정</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={onPressDelete}>
             <Text style={styles.bottomBoxText}>회원 탈퇴하기</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={onPressAddPoint}>
+            <Text style={styles.bottomBoxText}>5,000원 충전하기. </Text>
           </TouchableOpacity>
         </View>
       </View>

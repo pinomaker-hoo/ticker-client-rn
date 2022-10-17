@@ -1,5 +1,6 @@
 'use strict';
 import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const auth = axios.create({
   baseURL: 'http://localhost:3050/auth',
@@ -24,36 +25,54 @@ export const nullCheck = (data: string): boolean => {
   return true;
 };
 
-export const register = async (photo: any, body: any) => {
+export const register = async (body: any) => {
   try {
-    const formData: any = await createFormData(photo, body);
-    const data = formData._parts;
-    console.log(data);
-    const res = await auth({
+    return await auth({
       method: 'post',
       url: '/',
-      data: data,
-      headers: {
-        'content-type': 'multipart/form-data',
+      data: {
+        email: body.email,
+        password: body.password,
+        name: body.name,
+        birth: body.date,
+        male: body.male,
       },
     });
-    console.log(data);
   } catch (err) {
     console.log('err', err);
   }
 };
 
-const createFormData = async (photo: any, body: any) => {
-  const formData = new FormData();
-  formData.append('photo', {
-    name: photo.assets[0].fileName,
-    type: photo.assets[0].type,
-    uri: photo.assets[0].uri.replace('file://', ''),
-  });
+export const setPassApi = async (pass: string) => {
+  try {
+    const token = await AsyncStorage.getItem('accesstoken');
+    const jsonParser = token && (await JSON.parse(token));
+    console.log(jsonParser);
+    return await auth({
+      method: 'patch',
+      url: '/',
+      data: {pass},
+      headers: {
+        accessToken: jsonParser,
+      },
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
 
-  Object.keys(body).forEach(key => {
-    formData.append(key, body[key]);
-  });
-
-  return formData;
+export const findUser = async () => {
+  try {
+    const token = await AsyncStorage.getItem('accesstoken');
+    const jsonParser = token && (await JSON.parse(token));
+    return await auth({
+      method: 'get',
+      url: '/user',
+      headers: {
+        accessToken: jsonParser,
+      },
+    });
+  } catch (err) {
+    console.log(err);
+  }
 };
