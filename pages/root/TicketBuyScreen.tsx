@@ -13,7 +13,6 @@ export default function TicketBuyScreen(props: any) {
       ? require('../../assets/ticket1.jpeg')
       : require('../../assets/ticket2.jpeg');
 
-  console.log(props.route.params.data.idx);
   return (
     <View style={styles.container}>
       <View style={styles.topBox}>

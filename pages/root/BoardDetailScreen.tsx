@@ -1,3 +1,4 @@
+import {useEffect, useState} from 'react';
 import {
   StyleSheet,
   View,
@@ -5,13 +6,40 @@ import {
   Text,
   Image,
   TextInput,
+  ScrollView,
 } from 'react-native';
+import {getCommentList, saveComment} from '../../api/comment';
 import constant from '../../common/constant';
 
-export default function BoardDetailScreen({navigation}: any) {
+export default function BoardDetailScreen(props: any) {
+  const [data, setData]: any[] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [text, setText] = useState('');
+
   const onPressHome = () => {
-    navigation.navigate('Board');
+    props.navigation.navigate('Board');
   };
+
+  useEffect(() => {
+    callApi();
+  }, []);
+
+  const callApi = async () => {
+    const {data}: any = await getCommentList(
+      String(props.route.params.data.idx),
+    );
+    console.log(data);
+    setData(() => data.data);
+    setLoading(() => false);
+  };
+
+  const onPressSaveComment = async () => {
+    const {data}: any = saveComment(String(props.route.params.data.idx), text);
+    if (data) setData((current: []) => [...current, data]);
+  };
+
+  console.log(data, typeof data);
+  if (loading) return null;
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -26,8 +54,8 @@ export default function BoardDetailScreen({navigation}: any) {
             source={require('../../assets/user.png')}
           />
           <View>
-            <Text>김인후</Text>
-            <Text>2022-08-22</Text>
+            <Text>{props.route.params.data.user.name}</Text>
+            <Text>{props.route.params.data.createdAt.substr(0, 10)}</Text>
           </View>
         </View>
         <View style={styles.middle}>
@@ -35,16 +63,23 @@ export default function BoardDetailScreen({navigation}: any) {
             style={styles.middleImage}
             source={require('../../assets/ticket1.jpeg')}
           />
-          <Text style={styles.middleText}>
-            제육볶음은 제가 알려드린 대로 하시면 맛집에 찾아가실 필요는
-            없습니다. 참치액을 쓰시는 분들이 많아서 참치액으로 만들어
-            봤는데요.역시 오늘 들어가는 이 식재료가 훨씬 맛이 좋다고 하네요.
-            감탄이 절로 나는 레시피입니다.
-          </Text>
+          <Text style={styles.middleText}>{props.route.params.data.text}</Text>
+        </View>
+        <View style={styles.commentBox}>
+          <ScrollView>
+            {data.map((item: any) => (
+              <Text>
+                {item.user.name} : {item.text}
+              </Text>
+            ))}
+          </ScrollView>
         </View>
         <View style={styles.bottom}>
-          <TextInput placeholder="댓글을 입력하세요." />
-          <TouchableOpacity>
+          <TextInput
+            placeholder="댓글을 입력하세요."
+            onChangeText={text => setText(text)}
+          />
+          <TouchableOpacity onPress={onPressSaveComment}>
             <Text>게시</Text>
           </TouchableOpacity>
         </View>
@@ -89,5 +124,8 @@ const styles = StyleSheet.create({
   topImage: {
     width: 30,
     height: 30,
+  },
+  commentBox: {
+    flex: 3,
   },
 });
