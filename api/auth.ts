@@ -76,3 +76,19 @@ export const findUser = async () => {
     console.log(err);
   }
 };
+
+export const naverLogin = async (
+  email: string,
+  naverId: string,
+  name: string,
+): Promise<any> => {
+  try {
+    return await auth({
+      method: 'post',
+      url: '/naver',
+      data: {email, naverId, name},
+    });
+  } catch (err) {
+    console.log('err', err);
+  }
+};

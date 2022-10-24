@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import {
   Alert,
-  Button,
   Image,
   StyleSheet,
   Text,
@@ -10,7 +9,7 @@ import {
   View,
 } from 'react-native';
 import {Color} from '../../assets/color';
-import {login, nullCheck} from '../../api/auth';
+import {login, nullCheck, naverLogin} from '../../api/auth';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {NaverLogin, getProfile} from '@react-native-seoul/naver-login';
 
@@ -38,18 +37,12 @@ export default function LoginScreen({navigation}: any) {
     navigation.navigate('Bottom');
   };
 
-  const naverLogin = (props: any) => {
-    return new Promise((resolve, reject) => {
-      NaverLogin.login(props, (err, token: any) => {
-        console.log(`\n\n  Token is fetched  :: ${token} \n\n`);
-        setNaverToken(token);
-        if (err) {
-          reject(err);
-          return;
-        }
-        resolve(token);
-      });
+  const naverLoginBtnClick = async (props: any) => {
+    NaverLogin.login(props, (err, token: any) => {
+      setNaverToken(token);
+      if (err) console.log(err);
     });
+    await getUserProfile();
   };
 
   const getUserProfile = async () => {
@@ -58,9 +51,18 @@ export default function LoginScreen({navigation}: any) {
       Alert.alert('로그인 실패', profileResult.message);
       return;
     }
-    console.log('profileResult', profileResult);
+    console.log(profileResult);
+    const {data} = await naverLogin(
+      profileResult.response.email,
+      profileResult.response.id,
+      profileResult.response.name,
+    );
+    console.log(data);
+    await AsyncStorage.setItem('accesstoken', JSON.stringify(data.token));
+    await AsyncStorage.setItem('user', JSON.stringify(data.user));
+    if (!data.user.pass) return navigation.navigate('SetPassword');
+    navigation.navigate('Bottom');
   };
-  console.log(naverToken);
 
   return (
     <View style={styles.container}>
@@ -101,11 +103,10 @@ export default function LoginScreen({navigation}: any) {
       <View style={styles.kakaoBox}>
         <TouchableOpacity
           style={styles.kakaoBtn}
-          onPress={() => naverLogin(iosKeys)}
+          onPress={() => naverLoginBtnClick(iosKeys)}
         >
           <Text>네이버 로그인</Text>
         </TouchableOpacity>
-        <Button title="회원정보 가져오기" onPress={getUserProfile} />
       </View>
     </View>
   );
