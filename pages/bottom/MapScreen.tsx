@@ -1,4 +1,5 @@
 import {Text, View, StyleSheet, Image, TouchableOpacity} from 'react-native';
+import WebView from 'react-native-webview';
 
 export default function MapScreen({navigation}: any) {
   const onPressMenuBtn = () => {
@@ -24,7 +25,13 @@ export default function MapScreen({navigation}: any) {
           />
         </TouchableOpacity>
       </View>
-      <View style={styles.body}></View>
+      <View style={styles.body}>
+        <WebView
+          source={{
+            uri: 'https://map.naver.com',
+          }}
+        />
+      </View>
     </View>
   );
 }
