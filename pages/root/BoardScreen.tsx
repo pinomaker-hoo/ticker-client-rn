@@ -7,12 +7,11 @@ import {
   ScrollView,
 } from 'react-native';
 import {getBoardList} from '../../api/board';
-import constant from '../../common/constant';
 import Board from '../../components/Board';
 
 export default function BoardScreen({navigation}: any) {
   const [data, setData] = useState([]);
-  const [state, setState] = useState(false);
+
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -49,26 +48,10 @@ export default function BoardScreen({navigation}: any) {
         </TouchableOpacity>
       </View>
       <View style={styles.body}>
-        <View style={styles.menu}>
-          <TouchableOpacity onPress={() => setState(false)}>
-            <Text style={styles.menuText1}>자유 게시판</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => setState(true)}>
-            <Text style={styles.menuText}>학식 평가</Text>
-          </TouchableOpacity>
-        </View>
         <ScrollView style={styles.boardList}>
-          {state
-            ? data
-                .filter((item: any) => item.boardKind < 1)
-                .map((item: any) => (
-                  <Board onPress={() => onPressBoard(item)} data={item} />
-                ))
-            : data
-                .filter((item: any) => item.boardKind > 0)
-                .map((item: any) => (
-                  <Board onPress={() => onPressBoard(item)} data={item} />
-                ))}
+          {data.map((item: any) => (
+            <Board onPress={() => onPressBoard(item)} data={item} />
+          ))}
         </ScrollView>
       </View>
     </View>
@@ -97,20 +80,8 @@ const styles = StyleSheet.create({
   body: {
     flex: 7,
   },
-  menu: {
-    width: constant.width,
-    height: constant.height / 15,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: -30,
-  },
   boardList: {},
   menuText1: {
     fontSize: 20,
-  },
-  menuText: {
-    fontSize: 20,
-    marginLeft: 100,
   },
 });
