@@ -17,6 +17,7 @@ export default function BuyScreen({navigation}: any) {
   const onPressHome = () => {
     navigation.navigate('Bottom');
   };
+  
   const onPressBuy = (data: any) => {
     navigation.navigate('TicketBuy', {data});
   };

@@ -52,7 +52,7 @@ export default function RegisterScreen({navigation}: any) {
   const onPressRegisterBtn = async () => {
     const res: any = await register({email, name, password, date, male});
     if (res.data) return navigation.navigate('Login');
-  };
+  }
 
   return (
     <View style={styles.container}>
