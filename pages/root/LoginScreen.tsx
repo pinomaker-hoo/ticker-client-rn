@@ -92,7 +92,12 @@ export default function LoginScreen({navigation}: any) {
         </TouchableOpacity>
       </View>
       <View style={styles.textBox}>
-        <Text style={styles.textBoxText}>비밀번호가 기억이 안 나세요?</Text>
+        <Text
+          style={styles.textBoxText}
+          onPress={() => navigation.navigate('InitPassword')}
+        >
+          비밀번호가 기억이 안 나세요?
+        </Text>
         <Text
           style={styles.textBoxText}
           onPress={() => navigation.navigate('Register')}
