@@ -94,7 +94,7 @@ export const naverLogin = async (
   }
 };
 
-export const initPassword = async (email: string) => {
+export const initPassword = async (email: string): Promise<any> => {
   try {
     return await auth({
       method: 'post',

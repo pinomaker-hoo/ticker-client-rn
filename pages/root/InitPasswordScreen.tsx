@@ -1,11 +1,13 @@
 import {useState} from 'react';
 import {
+  Alert,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
   View,
 } from 'react-native';
+import {initPassword} from '../../api/auth';
 import {Color} from '../../assets/color';
 import constant from '../../common/constant';
 
@@ -16,8 +18,13 @@ export default function InitPasswordScreen({navigation}: any) {
     navigation.navigate('Login');
   };
 
-  const onPressBtn = () => {
-    console.log(email);
+  const onPressBtn = async () => {
+    const {data} = await initPassword(email);
+    if (!data) return Alert.alert('ERROR');
+    Alert.alert(
+      '비밀번호 찾기',
+      '임시 비밀번호를 발급하였습니다. 임시 비밀번호로 로그인 후 비밀번호를 변경 후 사용하세요.',
+    );
   };
 
   return (
