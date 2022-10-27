@@ -19,7 +19,6 @@ export default function AdminScreen({navigation}: any) {
 
   useEffect(() => {
     callApi();
-    console.log(user);
   }, []);
 
   const callApi = async () => {
@@ -55,7 +54,16 @@ export default function AdminScreen({navigation}: any) {
   };
 
   const onPressAddPoint = async () => {
-    const {data}: any = updatePoint(5000);
+    Alert.prompt('충전할 금액을 입력하세요.', '', [
+      {
+        text: '아니요.',
+        style: 'cancel',
+      },
+      {
+        text: '네',
+        onPress: () => console.log(2),
+      },
+    ]);
   };
 
   const onPressDelete = () => {
