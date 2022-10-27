@@ -13,6 +13,7 @@ import {Color} from '../../assets/color';
 import RadioForm from 'react-native-simple-radio-button';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import {register} from '../../api/auth';
+import {imgToBase64Code} from '../../common/base64';
 
 export default function RegisterScreen({navigation}: any) {
   const [photo, setPhoto]: any = useState(null);
@@ -50,9 +51,17 @@ export default function RegisterScreen({navigation}: any) {
   };
 
   const onPressRegisterBtn = async () => {
-    const res: any = await register({email, name, password, date, male});
+    const base = await imgToBase64Code(photo.uri);
+    const res: any = await register({
+      email,
+      name,
+      password,
+      date,
+      male,
+      base,
+    });
     if (res.data) return navigation.navigate('Login');
-  }
+  };
 
   return (
     <View style={styles.container}>

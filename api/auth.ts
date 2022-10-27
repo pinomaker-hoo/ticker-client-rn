@@ -36,6 +36,7 @@ export const register = async (body: any) => {
         name: body.name,
         birth: body.date,
         male: body.male,
+        base: body.base,
       },
     });
   } catch (err) {
