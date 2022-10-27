@@ -122,3 +122,19 @@ export const updatePassword = async (password: string) => {
     });
   } catch (err) {}
 };
+
+export const deleteUser = async () => {
+  try {
+    const token = await AsyncStorage.getItem('accesstoken');
+    const jsonParser = token && (await JSON.parse(token));
+    return await auth({
+      method: 'delete',
+      url: '/',
+      headers: {
+        accessToken: jsonParser,
+      },
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
