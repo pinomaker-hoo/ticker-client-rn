@@ -1,13 +1,17 @@
 import {useState} from 'react';
 import {
+  Alert,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
   View,
 } from 'react-native';
+import {updatePassword} from '../../api/auth';
 import {Color} from '../../assets/color';
+import {nullCheck} from '../../common/common';
 import constant from '../../common/constant';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function ChangePasswordScreen({navigation}: any) {
   const [password, setPassword] = useState('');
@@ -19,7 +23,17 @@ export default function ChangePasswordScreen({navigation}: any) {
   };
 
   const onPressBtn = async () => {
-    console.log(password, changePassword, changePasswordc);
+    if (!nullCheck([password, changePassword, changePasswordc]))
+      return Alert.alert('입력해주세요.');
+    if (changePassword !== changePasswordc)
+      return Alert.alert('새 비밀번호와 새 비밀번호 확인이 같지 않습니다.');
+    const {data}: any = await updatePassword(password);
+    if (!data) Alert.alert('ERROR');
+    Alert.alert('변경 완료되었습니다.', '다시 로그인해주세요.');
+
+    await AsyncStorage.removeItem('user');
+    await AsyncStorage.removeItem('accesstoken');
+    navigation.navigate('Login');
   };
 
   return (
