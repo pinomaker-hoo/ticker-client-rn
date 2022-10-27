@@ -105,3 +105,20 @@ export const initPassword = async (email: string): Promise<any> => {
     console.log(err);
   }
 };
+
+export const updatePassword = async (password: string) => {
+  try {
+    const token = await AsyncStorage.getItem('accesstoken');
+    const jsonParser = token && (await JSON.parse(token));
+    return await auth({
+      method: 'patch',
+      url: '/password',
+      data: {
+        password,
+      },
+      headers: {
+        accessToken: jsonParser,
+      },
+    });
+  } catch (err) {}
+};
