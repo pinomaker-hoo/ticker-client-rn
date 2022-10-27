@@ -126,7 +126,9 @@ export default function AdminScreen({navigation}: any) {
           <TouchableOpacity>
             <Text style={styles.bottomBoxText}>기본 정보 수정</Text>
           </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('ChangePassword')}
+          >
             <Text style={styles.bottomBoxText}>비밀번호 재설정</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={onPressPassword}>
