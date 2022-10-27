@@ -11,7 +11,6 @@ import Board from '../../components/Board';
 
 export default function BoardScreen({navigation}: any) {
   const [data, setData] = useState([]);
-
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -50,7 +49,11 @@ export default function BoardScreen({navigation}: any) {
       <View style={styles.body}>
         <ScrollView style={styles.boardList}>
           {data.map((item: any) => (
-            <Board onPress={() => onPressBoard(item)} data={item} />
+            <Board
+              key={item.idx}
+              onPress={() => onPressBoard(item)}
+              data={item}
+            />
           ))}
         </ScrollView>
       </View>

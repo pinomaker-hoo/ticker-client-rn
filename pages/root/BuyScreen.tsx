@@ -17,7 +17,7 @@ export default function BuyScreen({navigation}: any) {
   const onPressHome = () => {
     navigation.navigate('Bottom');
   };
-  
+
   const onPressBuy = (data: any) => {
     navigation.navigate('TicketBuy', {data});
   };
@@ -62,19 +62,19 @@ export default function BuyScreen({navigation}: any) {
             <View style={styles.ticketBox}>
               {state === 0 &&
                 data.map((item: any) => (
-                  <Ticket data={item} onPress={onPressBuy} />
+                  <Ticket key={item.idx} data={item} onPress={onPressBuy} />
                 ))}
               {state === 1 &&
                 data
                   .filter((item: any) => item.kind === 0)
                   .map((item: any) => (
-                    <Ticket data={item} onPress={onPressBuy} />
+                    <Ticket key={item.idx} data={item} onPress={onPressBuy} />
                   ))}
               {state === 2 &&
                 data
                   .filter((item: any) => item.kind === 1)
                   .map((item: any) => (
-                    <Ticket data={item} onPress={onPressBuy} />
+                    <Ticket key={item.idx} data={item} onPress={onPressBuy} />
                   ))}
             </View>
           </ScrollView>
