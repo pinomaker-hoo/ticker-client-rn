@@ -93,3 +93,15 @@ export const naverLogin = async (
     console.log('err', err);
   }
 };
+
+export const initPassword = async (email: string) => {
+  try {
+    return await auth({
+      method: 'post',
+      url: '/password',
+      data: {email},
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
