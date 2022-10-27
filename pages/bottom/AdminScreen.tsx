@@ -9,7 +9,7 @@ import {
   Alert,
 } from 'react-native';
 import {launchImageLibrary} from 'react-native-image-picker';
-import {findUser} from '../../api/auth';
+import {deleteUser, findUser} from '../../api/auth';
 import {updatePoint} from '../../api/point';
 
 export default function AdminScreen({navigation}: any) {
@@ -64,17 +64,25 @@ export default function AdminScreen({navigation}: any) {
       '',
       [
         {
-          text: '네',
-          onPress: () => console.log('아니라는데'),
+          text: '아니요.',
+          style: 'cancel',
         },
         {
-          text: '아니요.',
-          onPress: () => console.log('아니라는데'),
-          style: 'cancel',
+          text: '네',
+          onPress: () => onPressDeleteBtn(),
         },
       ],
       {cancelable: false},
     );
+  };
+
+  const onPressDeleteBtn = async () => {
+    const {data}: any = await deleteUser();
+    if (!data) Alert.alert('ERROR');
+    Alert.alert('삭제 되었습니다.');
+    await AsyncStorage.removeItem('user');
+    await AsyncStorage.removeItem('accesstoken');
+    navigation.navigate('Login');
   };
 
   if (loading) return null;
