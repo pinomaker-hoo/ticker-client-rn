@@ -8,18 +8,15 @@ import {
   Image,
   Alert,
 } from 'react-native';
-import {launchImageLibrary} from 'react-native-image-picker';
 import {deleteUser, findUser} from '../../api/auth';
-import {updatePoint} from '../../api/point';
 
 export default function AdminScreen({navigation}: any) {
-  const [photo, setPhoto]: any[] = useState(null);
   const [user, setUser]: any = useState();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     callApi();
-  }, []);
+  }, [loading]);
 
   const callApi = async () => {
     const {data}: any = await findUser();
@@ -27,19 +24,11 @@ export default function AdminScreen({navigation}: any) {
     setLoading(() => false);
   };
 
-  const handleChoosePhoto = () => {
-    launchImageLibrary({mediaType: 'photo'}, (response: any) => {
-      if (response) {
-        setPhoto(response);
-      }
-    });
-  };
-
   const onPressMenuBtn = () => {
     navigation.navigate('Menu');
   };
 
-  const onPressAlerttBtn = () => {
+  const onPressAlertBtn = () => {
     navigation.navigate('Alert');
   };
 
@@ -103,7 +92,7 @@ export default function AdminScreen({navigation}: any) {
             source={require('../../assets/list.png')}
           />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.headerBtn2} onPress={onPressAlerttBtn}>
+        <TouchableOpacity style={styles.headerBtn2} onPress={onPressAlertBtn}>
           <Image
             style={styles.headerImage}
             source={require('../../assets/bell.png')}
@@ -117,21 +106,19 @@ export default function AdminScreen({navigation}: any) {
           <Text style={styles.topBoxText}>포인트 : {user.point[0].money}</Text>
         </View>
         <View style={styles.middleBox}>
-          <TouchableOpacity onPress={handleChoosePhoto}>
-            {user.image ? (
-              <Image
-                style={styles.img}
-                source={{
-                  uri: `http://localhost:3050${user.image.substr(1)}.jpg`,
-                }}
-              />
-            ) : (
-              <Image
-                style={styles.img}
-                source={require('../../assets/user.png')}
-              />
-            )}
-          </TouchableOpacity>
+          {user.image ? (
+            <Image
+              style={styles.img}
+              source={{
+                uri: `http://localhost:3050${user.image.substr(1)}.jpg`,
+              }}
+            />
+          ) : (
+            <Image
+              style={styles.img}
+              source={require('../../assets/user.png')}
+            />
+          )}
           <Text style={styles.middleBoxText}>{user.email}</Text>
           <TouchableOpacity
             style={styles.middleBoxBtn}
@@ -161,7 +148,7 @@ export default function AdminScreen({navigation}: any) {
             <Text style={styles.bottomBoxText}>회원 탈퇴하기</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={onPressAddPoint}>
-            <Text style={styles.bottomBoxText}>5,000원 충전하기. </Text>
+            <Text style={styles.bottomBoxText}>충전하기</Text>
           </TouchableOpacity>
         </View>
       </View>

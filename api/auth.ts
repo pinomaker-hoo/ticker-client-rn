@@ -138,3 +138,20 @@ export const deleteUser = async () => {
     console.log(err);
   }
 };
+
+export const updateImage = async (base: string) => {
+  try {
+    const token = await AsyncStorage.getItem('accesstoken');
+    const jsonParser = token && (await JSON.parse(token));
+    return await auth({
+      method: 'patch',
+      url: '/image',
+      data: {base},
+      headers: {
+        accessToken: jsonParser,
+      },
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};

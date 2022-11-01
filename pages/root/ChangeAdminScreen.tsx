@@ -1,6 +1,15 @@
 import React, {useEffect, useState} from 'react';
-import {Text, View, StyleSheet, TouchableOpacity, Image} from 'react-native';
+import {
+  Text,
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  Alert,
+} from 'react-native';
 import {launchImageLibrary} from 'react-native-image-picker';
+import {updateImage} from '../../api/auth';
+import {imgToBase64Code} from '../../common/base64';
 
 export default function ChangeAdminScreen(props: any) {
   const [photo, setPhoto]: any[] = useState(null);
@@ -28,6 +37,32 @@ export default function ChangeAdminScreen(props: any) {
     props.navigation.navigate('Bottom');
   };
 
+  const updateImageApi = async () => {
+    if (!photo) return Alert.alert('이미지를 선택하지 않았습니다.');
+    console.log(photo.assets[0].uri);
+    const base = await imgToBase64Code(photo.assets[0].uri);
+    const {data}: any = await updateImage(base);
+    console.log(data);
+  };
+
+  const onPressUpdateBtn = () => {
+    Alert.alert(
+      '이미지 변경하겠습니까?',
+      '',
+      [
+        {
+          text: '아니요.',
+          style: 'cancel',
+        },
+        {
+          text: '네',
+          onPress: () => updateImageApi(),
+        },
+      ],
+      {cancelable: false},
+    );
+  };
+
   if (loading) return null;
   return (
     <View style={styles.container}>
@@ -37,17 +72,19 @@ export default function ChangeAdminScreen(props: any) {
         </TouchableOpacity>
       </View>
       <View style={styles.body}>
-        {photo ? (
-          <Image style={styles.img} source={{uri: photo.assets[0].uri}} />
-        ) : (
-          <Image
-            style={styles.img}
-            source={{
-              uri: `http://localhost:3050${user.image.substr(1)}.jpg`,
-            }}
-          />
-        )}
-        <TouchableOpacity onPress={handleChoosePhoto} style={styles.bodyBtn}>
+        <TouchableOpacity onPress={handleChoosePhoto}>
+          {photo ? (
+            <Image style={styles.img} source={{uri: photo.assets[0].uri}} />
+          ) : (
+            <Image
+              style={styles.img}
+              source={{
+                uri: `http://localhost:3050${user.image.substr(1)}.jpg`,
+              }}
+            />
+          )}
+        </TouchableOpacity>
+        <TouchableOpacity onPress={onPressUpdateBtn} style={styles.bodyBtn}>
           <Text style={styles.bodyBtnText}>이미지 변경</Text>
         </TouchableOpacity>
       </View>
