@@ -118,8 +118,13 @@ export default function AdminScreen({navigation}: any) {
         </View>
         <View style={styles.middleBox}>
           <TouchableOpacity onPress={handleChoosePhoto}>
-            {photo ? (
-              <Image style={styles.img} source={{uri: photo.assets[0].uri}} />
+            {user.image ? (
+              <Image
+                style={styles.img}
+                source={{
+                  uri: `http://localhost:3050${user.image.substr(1)}.jpg`,
+                }}
+              />
             ) : (
               <Image
                 style={styles.img}
@@ -136,10 +141,12 @@ export default function AdminScreen({navigation}: any) {
           </TouchableOpacity>
         </View>
         <View style={styles.bottomBox}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('Alert')}>
             <Text style={styles.bottomBoxText}>공지사항</Text>
           </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('ChangeAdmin', {data: user})}
+          >
             <Text style={styles.bottomBoxText}>기본 정보 수정</Text>
           </TouchableOpacity>
           <TouchableOpacity

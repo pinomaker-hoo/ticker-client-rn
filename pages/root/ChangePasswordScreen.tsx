@@ -30,7 +30,6 @@ export default function ChangePasswordScreen({navigation}: any) {
     const {data}: any = await updatePassword(password);
     if (!data) Alert.alert('ERROR');
     Alert.alert('변경 완료되었습니다.', '다시 로그인해주세요.');
-
     await AsyncStorage.removeItem('user');
     await AsyncStorage.removeItem('accesstoken');
     navigation.navigate('Login');

@@ -16,6 +16,7 @@ import TicketScreen from './TicketScreen';
 import EnterPasswordScreen from './EnterPasswordScreen';
 import InitPasswordScreen from './InitPasswordScreen';
 import ChangePasswordScreen from './ChangePasswordScreen';
+import ChangeAdminScreen from './ChangeAdminScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -101,6 +102,11 @@ export default function RootNavigator() {
         <Stack.Screen
           name="EnterPassword"
           component={EnterPasswordScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="ChangeAdmin"
+          component={ChangeAdminScreen}
           options={{headerShown: false}}
         />
       </Stack.Navigator>
