@@ -8,14 +8,18 @@ const board = axios.create({
   headers: {},
 });
 
-export const saveBoard = async (title: string, text: string, kind: boolean) => {
+export const saveBoard = async (
+  title: string,
+  text: string,
+  base: string[],
+) => {
   try {
     const token = await AsyncStorage.getItem('accesstoken');
     const jsonParser = token && (await JSON.parse(token));
     return await board({
       method: 'post',
       url: '/',
-      data: {title, text, kind},
+      data: {title, text, base},
       headers: {
         accessToken: jsonParser,
       },

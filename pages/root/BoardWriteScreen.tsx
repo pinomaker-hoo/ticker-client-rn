@@ -9,8 +9,8 @@ import {
 } from 'react-native';
 import {launchImageLibrary} from 'react-native-image-picker';
 import constant from '../../common/constant';
-import RNPickerSelect from 'react-native-picker-select';
 import {saveBoard} from '../../api/board';
+import {imgToBase64Code} from '../../common/base64';
 
 export default function BoardWriteScreen({navigation}: any) {
   const [photo1, setPhoto1]: any = useState(null);
@@ -18,7 +18,6 @@ export default function BoardWriteScreen({navigation}: any) {
   const [photo3, setPhoto3]: any = useState(null);
   const [text, setText] = useState('');
   const [title, setTitle] = useState('');
-  const [kind, setKind]: any = useState();
 
   const onPressHome = () => {
     navigation.navigate('Board');
@@ -49,7 +48,14 @@ export default function BoardWriteScreen({navigation}: any) {
   };
 
   const onPressSave = async () => {
-    const {data}: any = await saveBoard(title, text, kind);
+    const base1 = photo1 && (await imgToBase64Code(photo1.assets[0].uri));
+    const base2 = photo2 && (await imgToBase64Code(photo2.assets[0].uri));
+    const base3 = photo3 && (await imgToBase64Code(photo3.assets[0].uri));
+    const base = [];
+    if (base1) base.push(base1);
+    if (base2) base.push(base1);
+    if (base3) base.push(base1);
+    const {data}: any = await saveBoard(title, text, base);
     if (data) navigation.navigate('Board');
   };
 
@@ -68,13 +74,6 @@ export default function BoardWriteScreen({navigation}: any) {
           style={styles.titleInput}
           placeholder="제목 입력해주세요."
           onChangeText={title => setTitle(title)}
-        />
-        <RNPickerSelect
-          onValueChange={value => setKind(value)}
-          items={[
-            {label: '자유 게시판', value: 0},
-            {label: '학식 평가', value: 1},
-          ]}
         />
         <Text style={styles.imgText}>
           * 사진은 최대 3개까지 등록할 수 있습니다.

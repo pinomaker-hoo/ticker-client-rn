@@ -9,23 +9,32 @@ import {
   Alert,
 } from 'react-native';
 import {deleteUser, findUser} from '../../api/auth';
+import constant from '../../common/constant';
 
 export default function AdminScreen({navigation}: any) {
   const [user, setUser]: any = useState();
   const [loading, setLoading] = useState(true);
+  const [hide, setHide] = useState(true);
 
   useEffect(() => {
     callApi();
-  }, [loading]);
+  }, []);
 
   const callApi = async () => {
     const {data}: any = await findUser();
     setUser(() => data);
     setLoading(() => false);
   };
+  const onPressHideBar = () => {
+    setHide(true);
+  };
+
+  const onPressShowBar = () => {
+    setHide(false);
+  };
 
   const onPressMenuBtn = () => {
-    navigation.navigate('Menu');
+    setHide(false);
   };
 
   const onPressAlertBtn = () => {
@@ -152,6 +161,63 @@ export default function AdminScreen({navigation}: any) {
           </TouchableOpacity>
         </View>
       </View>
+      {hide ? null : (
+        <View style={styles.navBar}>
+          <View style={styles.topBox}>
+            <View style={styles.barHeader}>
+              <View style={styles.barTopLine}>
+                <TouchableOpacity
+                  style={styles.barHeaderBtn}
+                  onPress={onPressHideBar}
+                >
+                  <Image
+                    style={styles.headerImage}
+                    source={require('../../assets/list.png')}
+                  />
+                </TouchableOpacity>
+              </View>
+              <Text style={styles.topBoxText}>안녕하세요.</Text>
+              <Text style={styles.topBoxText}>{user.name}님</Text>
+              <Text style={styles.topBoxText}>
+                포인트 : {user.point[0].money}
+              </Text>
+              <TouchableOpacity
+                style={styles.topBoxBtn}
+                onPress={onPressLogoutBtn}
+              >
+                <Text style={styles.middleBoxBtnText}>로그아웃</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+          <View style={styles.middleBox}>
+            <TouchableOpacity
+              style={styles.listBtn}
+              onPress={() => navigation.navigate('Buy')}
+            >
+              <Text style={styles.lintBtnText}>주문하기</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.listBtn}
+              onPress={() => navigation.navigate('Ticket')}
+            >
+              <Text style={styles.lintBtnText}>식권함</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.listBtn}
+              onPress={() => navigation.navigate('Board')}
+            >
+              <Text style={styles.lintBtnText}>게시판</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.listBtn}
+              onPress={() => navigation.navigate('Admin')}
+            >
+              <Text style={styles.lintBtnText}>마이페이지</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.bottomBox}></View>
+        </View>
+      )}
     </View>
   );
 }
@@ -217,5 +283,48 @@ const styles = StyleSheet.create({
     marginLeft: 60,
     fontSize: 20,
     marginBottom: 20,
+  },
+  navBar: {
+    position: 'absolute',
+    top: 30,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    width: constant.width * 0.7,
+    height: constant.height,
+    backgroundColor: 'white',
+    borderColor: 'black',
+    borderRightWidth: 3,
+    flex: 1,
+  },
+  barHeader: {
+    flex: 3,
+    marginTop: 20,
+    backgroundColor: 'blue',
+  },
+  barHeaderBtn: {},
+  barBody: {
+    flex: 7,
+  },
+  barTopLine: {},
+
+  topBoxBtn: {
+    backgroundColor: 'blue',
+    borderWidth: 1,
+    borderColor: 'white',
+    width: 120,
+    height: 35,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 20,
+  },
+
+  listBtn: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+  lintBtnText: {
+    marginLeft: 30,
+    fontSize: 18,
   },
 });

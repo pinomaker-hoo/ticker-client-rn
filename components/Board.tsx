@@ -2,6 +2,7 @@ import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import constant from '../common/constant';
 
 export default function Board(props: any) {
+  console.log(props);
   return (
     <TouchableOpacity style={styles.board} onPress={props.onPress}>
       <View style={styles.boardTop}>
@@ -9,10 +10,16 @@ export default function Board(props: any) {
       </View>
       <View style={styles.boardMiddle}>
         <Text style={styles.boardMiddleText}>{props.data.text}</Text>
-        <Image
-          source={require('../assets/ticket1.jpeg')}
-          style={styles.boardImg}
-        />
+        {props.data.imgPath1 ? (
+          <Image
+            source={{
+              uri: `http://localhost:3050${props.data.imgPath1.substr(1)}.jpg`,
+            }}
+            style={styles.boardImg}
+          />
+        ) : (
+          <Image style={styles.boardImg} />
+        )}
       </View>
       <View style={styles.boardBottom}>
         <Text style={styles.boardBottomText}>{props.data.user.name}</Text>
