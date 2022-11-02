@@ -7,6 +7,7 @@ import {
   Image,
   TextInput,
   ScrollView,
+  Alert,
 } from 'react-native';
 import {getCommentList, saveComment} from '../../api/comment';
 import constant from '../../common/constant';
@@ -15,6 +16,7 @@ export default function BoardDetailScreen(props: any) {
   const [data, setData]: any[] = useState([]);
   const [loading, setLoading] = useState(true);
   const [text, setText] = useState('');
+  const [imgArr, setImgArr]: any = useState([]);
 
   const onPressHome = () => {
     props.navigation.navigate('Board');
@@ -28,17 +30,30 @@ export default function BoardDetailScreen(props: any) {
     const {data}: any = await getCommentList(
       String(props.route.params.data.idx),
     );
-    console.log(data);
     setData(() => data.data);
+    if (props.route.params.data.imgPath1)
+      setImgArr((current: any[]) => [props.route.params.data.imgPath1]);
+    if (props.route.params.data.imgPath2)
+      setImgArr((current: any[]) => [
+        ...current,
+        props.route.params.data.imgPath2,
+      ]);
+    if (props.route.params.data.imgPath3)
+      setImgArr((current: any[]) => [
+        ...current,
+        props.route.params.data.imgPath3,
+      ]);
     setLoading(() => false);
   };
 
   const onPressSaveComment = async () => {
-    const {data}: any = saveComment(String(props.route.params.data.idx), text);
-    if (data) setData((current: []) => [...current, data]);
+    const {data}: any = await saveComment(
+      String(props.route.params.data.idx),
+      text,
+    );
+    if (data) Alert.alert('댓글을 달았습니다.');
   };
 
-  console.log(data, typeof data);
   if (loading) return null;
   return (
     <View style={styles.container}>
@@ -49,39 +64,92 @@ export default function BoardDetailScreen(props: any) {
       </View>
       <View style={styles.body}>
         <View style={styles.top}>
-          <Image
-            style={styles.topImage}
-            source={require('../../assets/user.png')}
-          />
-          <View>
-            <Text>{props.route.params.data.user.name}</Text>
-            <Text>{props.route.params.data.createdAt.substr(0, 10)}</Text>
+          {props.route.params.data.user.image ? (
+            <Image
+              style={styles.topImage}
+              source={{
+                uri: `http://localhost:3050${props.route.params.data.user.image.substr(
+                  1,
+                )}.jpg`,
+              }}
+            />
+          ) : (
+            <Image
+              style={styles.topImage}
+              source={require('../../assets/user.png')}
+            />
+          )}
+          <View style={styles.topTextBox}>
+            <Text style={styles.topTextName}>
+              {props.route.params.data.user.name}
+            </Text>
+            <Text style={styles.topText}>
+              {props.route.params.data.createdAt.substr(0, 10)}
+            </Text>
           </View>
         </View>
         <View style={styles.middle}>
-          <Image
-            style={styles.middleImage}
-            source={require('../../assets/ticket1.jpeg')}
-          />
-          <Text style={styles.middleText}>{props.route.params.data.text}</Text>
+          <View style={styles.middleImgBox}>
+            <ScrollView horizontal={true} style={styles.middleImg}>
+              {imgArr.map((item: any) => (
+                <Image
+                  style={styles.middleImage}
+                  source={{
+                    uri: `http://localhost:3050${item.substr(1)}.jpg`,
+                  }}
+                />
+              ))}
+            </ScrollView>
+          </View>
+          <View style={styles.middleTextBox}>
+            <Text style={styles.middleText}>
+              {props.route.params.data.text}
+            </Text>
+          </View>
         </View>
         <View style={styles.commentBox}>
           <ScrollView>
             {data.map((item: any) => (
-              <Text>
-                {item.user.name} : {item.text}
-              </Text>
+              <View key={item.idx} style={styles.commentLine}>
+                <View style={styles.commentTop}>
+                  {item.user.image ? (
+                    <Image
+                      style={styles.commentImg}
+                      source={{
+                        uri: `http://localhost:3050${item.user.image.substr(
+                          1,
+                        )}.jpg`,
+                      }}
+                    />
+                  ) : (
+                    <Image
+                      style={styles.commentImg}
+                      source={require('../../assets/user.png')}
+                    />
+                  )}
+                  <Text style={styles.commentName}>{item.user.name}</Text>
+                </View>
+                <View style={styles.commentBottom}>
+                  <Text style={styles.commentText}>{item.text}</Text>
+                </View>
+              </View>
             ))}
           </ScrollView>
         </View>
         <View style={styles.bottom}>
-          <TextInput
-            placeholder="댓글을 입력하세요."
-            onChangeText={text => setText(text)}
-          />
-          <TouchableOpacity onPress={onPressSaveComment}>
-            <Text>게시</Text>
-          </TouchableOpacity>
+          <View style={styles.comment}>
+            <TextInput
+              placeholder="댓글을 입력하세요."
+              onChangeText={text => setText(text)}
+              style={styles.commentInput}
+            />
+            <TouchableOpacity
+              style={styles.commentBtn}
+              onPress={onPressSaveComment}
+            >
+              <Text>게시</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
     </View>
@@ -106,26 +174,95 @@ const styles = StyleSheet.create({
   top: {
     flex: 1,
     flexDirection: 'row',
+    marginTop: -20,
   },
   middle: {
     flex: 9,
   },
   bottom: {
     flex: 1.2,
-    borderTopWidth: 2,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   middleImage: {
-    width: constant.width,
-    height: constant.width * 0.8,
+    width: 350,
+    borderRadius: 10,
   },
   middleText: {
     flex: 1,
   },
+  topTextBox: {
+    marginLeft: 20,
+    justifyContent: 'center',
+  },
   topImage: {
-    width: 30,
-    height: 30,
+    width: 50,
+    height: 50,
+    borderRadius: 10,
+    marginLeft: 30,
   },
   commentBox: {
-    flex: 3,
+    flex: 5,
+    marginBottom: 20,
+  },
+  middleImg: {
+    width: 350,
+    height: 180,
+    marginTop: 20,
+  },
+  topText: {
+    color: 'black',
+    fontSize: 10,
+    marginTop: 5,
+  },
+  topTextName: {
+    color: 'black',
+    fontSize: 20,
+  },
+  middleImgBox: {justifyContent: 'center', alignItems: 'center', flex: 1},
+  middleTextBox: {flex: 1, marginTop: 20, marginLeft: 20},
+  comment: {
+    flexDirection: 'row',
+    width: constant.width * 0.9,
+    height: 50,
+    backgroundColor: '#ced4da',
+    borderRadius: 10,
+    marginBottom: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  commentInput: {flex: 6, paddingLeft: 10},
+  commentBtn: {flex: 1},
+  commentLine: {
+    width: constant.width * 0.9,
+    backgroundColor: '#ced4da',
+    marginLeft: constant.width * 0.05,
+    borderRadius: 10,
+    marginBottom: 20,
+  },
+  commentTop: {
+    marginLeft: 20,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  commentBottom: {
+    marginLeft: 20,
+    marginTop: 10,
+  },
+  commentName: {
+    marginLeft: 10,
+    fontSize: 20,
+  },
+  commentText: {
+    fontSize: 15,
+    width: constant.width * 0.8,
+  },
+  commentImg: {
+    width: 30,
+    height: 30,
+    borderRadius: 5,
+  },
+  commentView: {
+    justifyContent: 'center',
   },
 });

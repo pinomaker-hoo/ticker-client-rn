@@ -163,7 +163,7 @@ export default function AdminScreen({navigation}: any) {
       </View>
       {hide ? null : (
         <View style={styles.navBar}>
-          <View style={styles.topBox}>
+          <View style={styles.barTopBox}>
             <View style={styles.barHeader}>
               <View style={styles.barTopLine}>
                 <TouchableOpacity
@@ -176,11 +176,8 @@ export default function AdminScreen({navigation}: any) {
                   />
                 </TouchableOpacity>
               </View>
-              <Text style={styles.topBoxText}>안녕하세요.</Text>
-              <Text style={styles.topBoxText}>{user.name}님</Text>
-              <Text style={styles.topBoxText}>
-                포인트 : {user.point[0].money}
-              </Text>
+              <Text style={styles.barTopBoxText}>안녕하세요.</Text>
+              <Text style={styles.barTopBoxText}>{user.name}님</Text>
               <TouchableOpacity
                 style={styles.topBoxBtn}
                 onPress={onPressLogoutBtn}
@@ -189,7 +186,7 @@ export default function AdminScreen({navigation}: any) {
               </TouchableOpacity>
             </View>
           </View>
-          <View style={styles.middleBox}>
+          <View style={styles.barMiddleBox}>
             <TouchableOpacity
               style={styles.listBtn}
               onPress={() => navigation.navigate('Buy')}
@@ -215,7 +212,7 @@ export default function AdminScreen({navigation}: any) {
               <Text style={styles.lintBtnText}>마이페이지</Text>
             </TouchableOpacity>
           </View>
-          <View style={styles.bottomBox}></View>
+          <View style={styles.barBottomBox}></View>
         </View>
       )}
     </View>
@@ -300,16 +297,17 @@ const styles = StyleSheet.create({
   barHeader: {
     flex: 3,
     marginTop: 20,
-    backgroundColor: 'blue',
+    backgroundColor: '#28CAF7',
   },
-  barHeaderBtn: {},
+  barHeaderBtn: {
+    marginLeft: 220,
+  },
   barBody: {
     flex: 7,
   },
   barTopLine: {},
-
   topBoxBtn: {
-    backgroundColor: 'blue',
+    marginLeft: 20,
     borderWidth: 1,
     borderColor: 'white',
     width: 120,
@@ -318,7 +316,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 20,
   },
-
   listBtn: {
     flex: 1,
     justifyContent: 'center',
@@ -326,5 +323,17 @@ const styles = StyleSheet.create({
   lintBtnText: {
     marginLeft: 30,
     fontSize: 18,
+  },
+  barTopBox: {
+    backgroundColor: '#28CAF7',
+    flex: 1,
+  },
+  barMiddleBox: {flex: 2},
+  barBottomBox: {flex: 1.5},
+  barTopBoxText: {
+    fontSize: 20,
+    marginTop: 10,
+    marginLeft: 20,
+    color: 'white',
   },
 });

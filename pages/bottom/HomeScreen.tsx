@@ -1,18 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import {
-  Alert,
-  Image,
-  Modal,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import Calendar from 'react-native-calendars/src/calendar';
-import {deleteUser, findUser} from '../../api/auth';
+import {findUser} from '../../api/auth';
 import {formatDate} from '../../common/common';
 import constant from '../../common/constant';
-import Header from '../../components/Header';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function HomeScreen({navigation}: any) {
@@ -40,6 +31,7 @@ export default function HomeScreen({navigation}: any) {
   }, []);
 
   const callApi = async () => {
+    setHide(false);
     const {data}: any = await findUser();
     setUser(() => data);
     setLoading(() => false);
@@ -132,9 +124,6 @@ export default function HomeScreen({navigation}: any) {
               </View>
               <Text style={styles.topBoxText}>안녕하세요.</Text>
               <Text style={styles.topBoxText}>{user.name}님</Text>
-              <Text style={styles.topBoxText}>
-                포인트 : {user.point[0].money}
-              </Text>
               <TouchableOpacity
                 style={styles.topBoxBtn}
                 onPress={onPressLogoutBtn}
@@ -253,9 +242,11 @@ const styles = StyleSheet.create({
   barHeader: {
     flex: 3,
     marginTop: 20,
-    backgroundColor: 'blue',
+    backgroundColor: '#28CAF7',
   },
-  barHeaderBtn: {},
+  barHeaderBtn: {
+    marginLeft: 220,
+  },
   barBody: {
     flex: 7,
   },
@@ -268,20 +259,23 @@ const styles = StyleSheet.create({
   },
   topBox: {
     flex: 1,
-    backgroundColor: 'blue',
+    backgroundColor: '#28CAF7',
   },
   topBoxText: {
     fontSize: 20,
+    marginTop: 10,
+    marginLeft: 20,
     color: 'white',
   },
+
   middleBox: {
-    flex: 2.5,
+    flex: 2,
   },
   middleBoxText: {
     marginTop: 20,
   },
   topBoxBtn: {
-    backgroundColor: 'blue',
+    marginLeft: 20,
     borderWidth: 1,
     borderColor: 'white',
     width: 120,
@@ -291,6 +285,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   middleBoxBtnText: {color: 'white'},
+
   bottomBox: {
     flex: 1.5,
   },

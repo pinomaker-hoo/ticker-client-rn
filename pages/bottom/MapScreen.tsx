@@ -1,11 +1,23 @@
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {Text, View, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import WebView from 'react-native-webview';
 import constant from '../../common/constant';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {findUser} from '../../api/auth';
 
 export default function MapScreen({navigation}: any) {
   const [hide, setHide] = useState(true);
+  const [user, setUser]: any = useState();
+
+  useEffect(() => {
+    callApi();
+  }, []);
+
+  const callApi = async () => {
+    const {data}: any = await findUser();
+    setUser(() => data);
+  };
+
   const onPressMenuBtn = () => {
     navigation.navigate('Menu');
   };
@@ -53,7 +65,7 @@ export default function MapScreen({navigation}: any) {
       </View>
       {hide ? null : (
         <View style={styles.navBar}>
-          <View style={styles.topBox}>
+          <View style={styles.barTopBox}>
             <View style={styles.barHeader}>
               <View style={styles.barTopLine}>
                 <TouchableOpacity
@@ -66,11 +78,8 @@ export default function MapScreen({navigation}: any) {
                   />
                 </TouchableOpacity>
               </View>
-              <Text style={styles.topBoxText}>안녕하세요.</Text>
-              <Text style={styles.topBoxText}>{/* {user.name} */}님</Text>
-              <Text style={styles.topBoxText}>
-                {/* 포인트 : {user.point[0].money} */}
-              </Text>
+              <Text style={styles.barTopBoxText}>안녕하세요.</Text>
+              <Text style={styles.barTopBoxText}>{user.name}님</Text>
               <TouchableOpacity
                 style={styles.topBoxBtn}
                 onPress={onPressLogoutBtn}
@@ -79,7 +88,7 @@ export default function MapScreen({navigation}: any) {
               </TouchableOpacity>
             </View>
           </View>
-          <View style={styles.middleBox}>
+          <View style={styles.barMiddleBox}>
             <TouchableOpacity
               style={styles.listBtn}
               onPress={() => navigation.navigate('Buy')}
@@ -105,7 +114,7 @@ export default function MapScreen({navigation}: any) {
               <Text style={styles.lintBtnText}>마이페이지</Text>
             </TouchableOpacity>
           </View>
-          <View style={styles.bottomBox}></View>
+          <View style={styles.barBottomBox}></View>
         </View>
       )}
     </View>
@@ -151,35 +160,17 @@ const styles = StyleSheet.create({
   barHeader: {
     flex: 3,
     marginTop: 20,
-    backgroundColor: 'blue',
+    backgroundColor: '#28CAF7',
   },
-  barHeaderBtn: {},
+  barHeaderBtn: {
+    marginLeft: 220,
+  },
   barBody: {
     flex: 7,
   },
   barTopLine: {},
-  img: {
-    width: 70,
-    height: 70,
-    borderRadius: 35,
-    backgroundColor: '#E8E8E8',
-  },
-  topBox: {
-    flex: 1,
-    backgroundColor: 'blue',
-  },
-  topBoxText: {
-    fontSize: 20,
-    color: 'white',
-  },
-  middleBox: {
-    flex: 2.5,
-  },
-  middleBoxText: {
-    marginTop: 20,
-  },
   topBoxBtn: {
-    backgroundColor: 'blue',
+    marginLeft: 20,
     borderWidth: 1,
     borderColor: 'white',
     width: 120,
@@ -187,10 +178,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 20,
-  },
-  middleBoxBtnText: {color: 'white'},
-  bottomBox: {
-    flex: 1.5,
   },
   listBtn: {
     flex: 1,
@@ -200,4 +187,17 @@ const styles = StyleSheet.create({
     marginLeft: 30,
     fontSize: 18,
   },
+  barTopBox: {
+    backgroundColor: '#28CAF7',
+    flex: 1,
+  },
+  barMiddleBox: {flex: 2},
+  barBottomBox: {flex: 1.5},
+  barTopBoxText: {
+    fontSize: 20,
+    marginTop: 10,
+    marginLeft: 20,
+    color: 'white',
+  },
+  middleBoxBtnText: {color: 'white'},
 });
