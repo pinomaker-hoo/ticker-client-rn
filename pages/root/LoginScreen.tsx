@@ -110,7 +110,7 @@ export default function LoginScreen({navigation}: any) {
           style={styles.kakaoBtn}
           onPress={() => naverLoginBtnClick(iosKeys)}
         >
-          <Text>네이버 로그인</Text>
+          <Text style={styles.naverBtnText}>네이버 로그인</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -183,11 +183,14 @@ const styles = StyleSheet.create({
     marginRight: 40,
   },
   kakaoBtn: {
-    backgroundColor: 'yellow',
+    backgroundColor: '#2db400',
     width: 250,
     height: 40,
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: -50,
+  },
+  naverBtnText: {
+    color: 'white',
   },
 });
