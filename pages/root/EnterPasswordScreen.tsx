@@ -1,13 +1,5 @@
 import React, {useState} from 'react';
-import {
-  StyleSheet,
-  TextInput,
-  View,
-  Text,
-  TouchableOpacity,
-  Alert,
-} from 'react-native';
-import {setPassApi} from '../../api/auth';
+import {StyleSheet, View, Text, TouchableOpacity, Alert} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {buyTicket} from '../../api/ticket';
 
