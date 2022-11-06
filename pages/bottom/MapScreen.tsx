@@ -59,7 +59,7 @@ export default function MapScreen({navigation}: any) {
       <View style={styles.body}>
         <WebView
           source={{
-            uri: 'https://map.naver.com',
+            uri: 'https://naver.me/xZOmPbSl',
           }}
         />
       </View>

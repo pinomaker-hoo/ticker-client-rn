@@ -1,40 +1,41 @@
 import React, {useEffect, useState} from 'react';
-import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import Calendar from 'react-native-calendars/src/calendar';
+import {
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {findUser} from '../../api/auth';
-import {formatDate} from '../../common/common';
 import constant from '../../common/constant';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {Color} from '../../assets/color';
+import {getFood} from '../../api/food';
 
 export default function HomeScreen({navigation}: any) {
-  const [selectedDate, setSelectedDate] = useState(formatDate(new Date()));
-  const [dataList, setDataList] = useState([]);
+  const [data, setData]: any = useState();
   const [hide, setHide] = useState(true);
   const [user, setUser]: any = useState();
   const [loading, setLoading]: any = useState(true);
 
-  const markedDates = dataList.reduce((acc: any, current: any) => {
-    const formattedDate = formatDate(new Date(current.date));
-    acc[formattedDate] = {marked: true};
-    return acc;
-  }, {});
-
-  const markedSelectedDates = {
-    ...markedDates,
-    [selectedDate]: {
-      selected: true,
-      marked: markedDates[selectedDate]?.marked,
-    },
-  };
   useEffect(() => {
     callApi();
   }, []);
 
   const callApi = async () => {
-    setHide(false);
     const {data}: any = await findUser();
+    const {data: data2}: any = await getFood();
+    const now = new Date();
+    const dateString = getDateToString(now);
+    const a = data2.filter((item: any) => item.date == dateString);
+    setData(a[0]);
     setUser(() => data);
     setLoading(() => false);
+  };
+
+  const getDateToString = (date: Date) => {
+    return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDay() - 1}`;
   };
 
   const onPressAlerttBtn = () => {
@@ -48,9 +49,6 @@ export default function HomeScreen({navigation}: any) {
   const onPressShowBar = () => {
     setHide(false);
   };
-  const onPressMenuBtn = () => {
-    navigation.navigate('Menu');
-  };
 
   const onPressLogoutBtn = async () => {
     await AsyncStorage.removeItem('user');
@@ -58,6 +56,7 @@ export default function HomeScreen({navigation}: any) {
     navigation.navigate('Login');
   };
 
+  if (loading) return null;
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -98,13 +97,17 @@ export default function HomeScreen({navigation}: any) {
           </TouchableOpacity>
         </View>
         <View style={styles.date}>
-          <Calendar
-            markedDates={markedSelectedDates}
-            onDayPress={day => {
-              setSelectedDate(day.dateString);
-            }}
-            style={styles.calendar}
-          />
+          <ScrollView horizontal={true} style={styles.foodBox}>
+            <View style={styles.bigFoodBox}>
+              <Text style={styles.foodTitle}>{data.date}</Text>
+              <View style={styles.foodTextBox}>
+                <Text style={styles.foodText}>🍚 {data.rice} 🍚</Text>
+                <Text style={styles.foodText}>🥘 {data.soup} 🥘</Text>
+                <Text style={styles.foodText}>🥟 {data.food1} 🥟</Text>
+                <Text style={styles.foodText}>🍗 {data.food2} 🍗</Text>
+              </View>
+            </View>
+          </ScrollView>
         </View>
       </View>
       {hide ? null : (
@@ -123,7 +126,7 @@ export default function HomeScreen({navigation}: any) {
                 </TouchableOpacity>
               </View>
               <Text style={styles.topBoxText}>안녕하세요.</Text>
-              <Text style={styles.topBoxText}>{user.name}님</Text>
+              {/* <Text style={styles.topBoxText}>{user.name}님</Text> */}
               <TouchableOpacity
                 style={styles.topBoxBtn}
                 onPress={onPressLogoutBtn}
@@ -178,7 +181,7 @@ const styles = StyleSheet.create({
     width: constant.width - 50,
     height: 80,
     borderWidth: 1,
-    borderColor: 'black',
+    borderColor: Color.blue,
     alignItems: 'center',
     flexDirection: 'row',
   },
@@ -186,7 +189,7 @@ const styles = StyleSheet.create({
     width: constant.width - 50,
     height: 80,
     borderWidth: 1,
-    borderColor: 'black',
+    borderColor: Color.blue,
     marginTop: 30,
     alignItems: 'center',
     flexDirection: 'row',
@@ -296,5 +299,32 @@ const styles = StyleSheet.create({
   lintBtnText: {
     marginLeft: 30,
     fontSize: 18,
+  },
+  foodScrollBox: {
+    width: 400,
+    height: 400,
+  },
+  foodBox: {
+    width: 330,
+    height: 250,
+    borderWidth: 1,
+    borderColor: Color.blue,
+  },
+  foodText: {
+    fontSize: 30,
+    marginTop: 30,
+  },
+  foodTitle: {
+    marginTop: 20,
+    fontSize: 30,
+    marginBottom: 20,
+  },
+  foodTextBox: {
+    justifyContent: 'center',
+  },
+  bigFoodBox: {
+    width: 330,
+    height: 250,
+    alignItems: 'center',
   },
 });
