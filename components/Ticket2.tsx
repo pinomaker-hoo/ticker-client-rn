@@ -2,7 +2,6 @@ import React from 'react';
 import {TouchableOpacity, Image, View, StyleSheet, Text} from 'react-native';
 
 const Ticket2 = (props: any) => {
-  console.log(props.data.used);
   const img =
     props.data.ticket.kind === 0
       ? require('../assets/ticket1.jpeg')

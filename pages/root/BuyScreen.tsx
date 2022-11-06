@@ -5,6 +5,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   ScrollView,
+  Image,
 } from 'react-native';
 import {getTicketList} from '../../api/ticket';
 import Ticket from '../../components/Ticket';
@@ -32,13 +33,15 @@ export default function BuyScreen({navigation}: any) {
     setLoading(() => false);
   };
 
-  console.log(data);
   if (loading) return null;
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <TouchableOpacity style={styles.headerBtn} onPress={onPressHome}>
-          <Text>뒤로가기</Text>
+          <Image
+            style={styles.back}
+            source={require('../../assets/back.png')}
+          />
         </TouchableOpacity>
       </View>
       <View style={styles.body}>
@@ -133,5 +136,9 @@ const styles = StyleSheet.create({
   },
   headerBtn: {
     marginLeft: 30,
+  },
+  back: {
+    width: 30,
+    height: 30,
   },
 });

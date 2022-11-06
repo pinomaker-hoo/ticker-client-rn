@@ -1,10 +1,11 @@
-import {useState, useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
   StyleSheet,
   TouchableOpacity,
   ScrollView,
+  Image,
 } from 'react-native';
 import {getTicketUserList} from '../../api/ticket';
 import Ticket2 from '../../components/Ticket2';
@@ -31,14 +32,15 @@ export default function TicketScreen({navigation}: any) {
     navigation.navigate('TicketImage', {data});
   };
 
-  console.log(data[0]);
-
   if (loading) return null;
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <TouchableOpacity style={styles.headerBtn} onPress={onPressHome}>
-          <Text>뒤로가기</Text>
+          <Image
+            style={styles.back}
+            source={require('../../assets/back.png')}
+          />
         </TouchableOpacity>
       </View>
       <View style={styles.body}>
@@ -109,5 +111,9 @@ const styles = StyleSheet.create({
   ticket: {
     marginLeft: 30,
     marginTop: 30,
+  },
+  back: {
+    width: 30,
+    height: 30,
   },
 });

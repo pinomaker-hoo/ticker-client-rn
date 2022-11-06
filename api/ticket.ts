@@ -36,7 +36,7 @@ export const getTicketUserList = async () => {
   const jsonParser = token && (await JSON.parse(token));
   return await ticketUser({
     method: 'get',
-    url: '/',
+    url: '/user',
     headers: {
       accessToken: jsonParser,
     },

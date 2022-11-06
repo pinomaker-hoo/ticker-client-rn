@@ -1,10 +1,11 @@
-import {useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   StyleSheet,
   View,
   TouchableOpacity,
   Text,
   ScrollView,
+  Image,
 } from 'react-native';
 import {getBoardList} from '../../api/board';
 import Board from '../../components/Board';
@@ -39,11 +40,14 @@ export default function BoardScreen({navigation}: any) {
     <View style={styles.container}>
       <View style={styles.header}>
         <TouchableOpacity style={styles.headerBtn1} onPress={onPressHome}>
-          <Text>뒤로가기</Text>
+          <Image
+            style={styles.back}
+            source={require('../../assets/back.png')}
+          />
         </TouchableOpacity>
         <Text style={styles.headerText}>게시판</Text>
         <TouchableOpacity style={styles.headerBtn2} onPress={onPressBoardWrite}>
-          <Text>작성하기</Text>
+          <Image style={styles.back} source={require('../../assets/pen.png')} />
         </TouchableOpacity>
       </View>
       <View style={styles.body}>
@@ -75,7 +79,7 @@ const styles = StyleSheet.create({
     marginLeft: 30,
   },
   headerBtn2: {
-    marginLeft: 100,
+    marginLeft: 140,
   },
   headerText: {
     marginLeft: 100,
@@ -86,5 +90,9 @@ const styles = StyleSheet.create({
   boardList: {},
   menuText1: {
     fontSize: 20,
+  },
+  back: {
+    width: 30,
+    height: 30,
   },
 });

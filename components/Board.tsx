@@ -2,7 +2,6 @@ import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import constant from '../common/constant';
 
 export default function Board(props: any) {
-  console.log(props);
   return (
     <TouchableOpacity style={styles.board} onPress={props.onPress}>
       <View style={styles.boardTop}>

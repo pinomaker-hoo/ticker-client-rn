@@ -12,7 +12,6 @@ import constant from '../../common/constant';
 export default function TicketImageScreen(props: any) {
   const onPress = async () => {
     const {data}: any = await useTicket(Number(props.route.params.data.idx));
-    console.log(data);
     if (data) props.navigation.navigate('Bottom');
   };
 
@@ -33,14 +32,14 @@ export default function TicketImageScreen(props: any) {
       {cancelable: false},
     );
   };
-  console.log(props.route.params.data);
+  const img =
+    props.route.params.data.ticket.kind === 0
+      ? require('../../assets/ticket1.jpeg')
+      : require('../../assets/ticket2.jpeg');
   return (
     <View style={styles.container}>
       <View style={styles.topBox}>
-        <Image
-          style={styles.topBoxImage}
-          source={require('../../assets/ticket1.jpeg')}
-        />
+        <Image style={styles.topBoxImage} source={img} />
       </View>
       <View style={styles.middleBox}>
         <View style={styles.textBox}>

@@ -39,10 +39,8 @@ export default function ChangeAdminScreen(props: any) {
 
   const updateImageApi = async () => {
     if (!photo) return Alert.alert('이미지를 선택하지 않았습니다.');
-    console.log(photo.assets[0].uri);
     const base = await imgToBase64Code(photo.assets[0].uri);
     const {data}: any = await updateImage(base);
-    console.log(data);
   };
 
   const onPressUpdateBtn = () => {
@@ -68,7 +66,10 @@ export default function ChangeAdminScreen(props: any) {
     <View style={styles.container}>
       <View style={styles.header}>
         <TouchableOpacity style={styles.headerBtn} onPress={onPressHome}>
-          <Text>뒤로가기</Text>
+          <Image
+            style={styles.back}
+            source={require('../../assets/back.png')}
+          />
         </TouchableOpacity>
       </View>
       <View style={styles.body}>
@@ -127,5 +128,9 @@ const styles = StyleSheet.create({
   },
   bodyBtnText: {
     color: 'white',
+  },
+  back: {
+    width: 30,
+    height: 30,
   },
 });

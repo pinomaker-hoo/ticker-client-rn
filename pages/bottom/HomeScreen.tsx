@@ -26,18 +26,13 @@ export default function HomeScreen({navigation}: any) {
   const callApi = async () => {
     const {data}: any = await findUser();
     const {data: data2}: any = await getFood();
-    const now = new Date();
-    const dateString = getDateToString(now);
-    const a = data2.filter((item: any) => item.date == dateString);
-    setData(a[0]);
+    const dateString: string = new Date(+new Date() + 3240 * 10000)
+      .toISOString()
+      .split('T')[0];
+    setData(data2.filter((item: any) => item.date == dateString)[0]);
     setUser(() => data);
     setLoading(() => false);
   };
-
-  const getDateToString = (date: Date) => {
-    return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDay() - 1}`;
-  };
-
   const onPressAlerttBtn = () => {
     navigation.navigate('Alert');
   };
@@ -97,17 +92,15 @@ export default function HomeScreen({navigation}: any) {
           </TouchableOpacity>
         </View>
         <View style={styles.date}>
-          <ScrollView horizontal={true} style={styles.foodBox}>
-            <View style={styles.bigFoodBox}>
-              <Text style={styles.foodTitle}>{data.date}</Text>
-              <View style={styles.foodTextBox}>
-                <Text style={styles.foodText}>🍚 {data.rice} 🍚</Text>
-                <Text style={styles.foodText}>🥘 {data.soup} 🥘</Text>
-                <Text style={styles.foodText}>🥟 {data.food1} 🥟</Text>
-                <Text style={styles.foodText}>🍗 {data.food2} 🍗</Text>
-              </View>
+          <View style={styles.bigFoodBox}>
+            <Text style={styles.foodTitle}>{data.date}</Text>
+            <View style={styles.foodTextBox}>
+              <Text style={styles.foodText}>🍚 {data.rice} 🍚</Text>
+              <Text style={styles.foodText}>🥘 {data.soup} 🥘</Text>
+              <Text style={styles.foodText}>🥟 {data.food1} 🥟</Text>
+              <Text style={styles.foodText}>🍗 {data.food2} 🍗</Text>
             </View>
-          </ScrollView>
+          </View>
         </View>
       </View>
       {hide ? null : (
@@ -126,7 +119,7 @@ export default function HomeScreen({navigation}: any) {
                 </TouchableOpacity>
               </View>
               <Text style={styles.topBoxText}>안녕하세요.</Text>
-              {/* <Text style={styles.topBoxText}>{user.name}님</Text> */}
+              <Text style={styles.topBoxText}>{user.name}님</Text>
               <TouchableOpacity
                 style={styles.topBoxBtn}
                 onPress={onPressLogoutBtn}
@@ -195,7 +188,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   btnBox: {flex: 1},
-  date: {flex: 1.2, marginTop: -30},
+  date: {flex: 1.2, marginTop: -100},
   calendar: {
     borderBottomWidth: 1,
     borderBottomColor: '#e0e0e0',
@@ -300,16 +293,6 @@ const styles = StyleSheet.create({
     marginLeft: 30,
     fontSize: 18,
   },
-  foodScrollBox: {
-    width: 400,
-    height: 400,
-  },
-  foodBox: {
-    width: 330,
-    height: 250,
-    borderWidth: 1,
-    borderColor: Color.blue,
-  },
   foodText: {
     fontSize: 30,
     marginTop: 30,
@@ -321,10 +304,13 @@ const styles = StyleSheet.create({
   },
   foodTextBox: {
     justifyContent: 'center',
+    alignItems: 'center',
   },
   bigFoodBox: {
     width: 330,
-    height: 250,
+    height: 400,
+    borderWidth: 1,
+    borderColor: Color.blue,
     alignItems: 'center',
   },
 });

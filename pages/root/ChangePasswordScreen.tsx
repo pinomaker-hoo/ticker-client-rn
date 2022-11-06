@@ -1,6 +1,7 @@
-import {useState} from 'react';
+import React, {useState} from 'react';
 import {
   Alert,
+  Image,
   StyleSheet,
   Text,
   TextInput,
@@ -39,7 +40,10 @@ export default function ChangePasswordScreen({navigation}: any) {
     <View style={styles.container}>
       <View style={styles.header}>
         <TouchableOpacity style={styles.headerBtn} onPress={onPressHome}>
-          <Text>뒤로가기</Text>
+          <Image
+            style={styles.back}
+            source={require('../../assets/back.png')}
+          />
         </TouchableOpacity>
       </View>
       <View style={styles.body}>
@@ -138,5 +142,9 @@ const styles = StyleSheet.create({
     marginLeft: -30,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  back: {
+    width: 30,
+    height: 30,
   },
 });

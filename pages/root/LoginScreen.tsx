@@ -26,7 +26,6 @@ export default function LoginScreen({navigation}: any) {
   const [password, setPassword] = useState('');
 
   const onPressLogin = async () => {
-    console.log(email, password);
     if (!nullCheck(email)) return Alert.alert('이메일을 입력하세요.');
     if (!nullCheck(password)) return Alert.alert('비밀번호를 입력하세요.');
     const {data} = await login(email, password);
@@ -51,13 +50,11 @@ export default function LoginScreen({navigation}: any) {
       Alert.alert('로그인 실패', profileResult.message);
       return;
     }
-    console.log(profileResult);
     const {data} = await naverLogin(
       profileResult.response.email,
       profileResult.response.id,
       profileResult.response.name,
     );
-    console.log(data);
     await AsyncStorage.setItem('accesstoken', JSON.stringify(data.token));
     await AsyncStorage.setItem('user', JSON.stringify(data.user));
     if (!data.user.pass) return navigation.navigate('SetPassword');

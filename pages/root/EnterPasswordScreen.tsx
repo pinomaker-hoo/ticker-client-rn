@@ -14,14 +14,12 @@ import {buyTicket} from '../../api/ticket';
 export default function EnterPasswordScreen(props: any) {
   const [arr, setArr]: any = useState([]);
 
-  console.log(props.route.params.data);
-
   const onPress = async () => {
     const str = arr.join('');
     const user = await AsyncStorage.getItem('user');
     const jsonParser = user && (await JSON.parse(user));
-    if (str !== jsonParser.pass)
-      return Alert.alert('비밀번호가 맞지 않습니다.');
+    // if (str !== jsonParser.pass)
+    //   return Alert.alert('비밀번호가 맞지 않습니다.');
     const {data}: any = await buyTicket(props.route.params.data);
     if (data) props.navigation.navigate('Bottom');
   };

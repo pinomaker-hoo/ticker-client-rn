@@ -51,6 +51,7 @@ export default function BoardDetailScreen(props: any) {
       String(props.route.params.data.idx),
       text,
     );
+    setText('');
     if (data) Alert.alert('댓글을 달았습니다.');
   };
 
@@ -59,7 +60,10 @@ export default function BoardDetailScreen(props: any) {
     <View style={styles.container}>
       <View style={styles.header}>
         <TouchableOpacity style={styles.headerBtn} onPress={onPressHome}>
-          <Text>뒤로가기</Text>
+          <Image
+            style={styles.back}
+            source={require('../../assets/back.png')}
+          />
         </TouchableOpacity>
       </View>
       <View style={styles.body}>
@@ -264,5 +268,9 @@ const styles = StyleSheet.create({
   },
   commentView: {
     justifyContent: 'center',
+  },
+  back: {
+    width: 30,
+    height: 30,
   },
 });
