@@ -20,14 +20,18 @@ export const getPoint = async () => {
 };
 
 export const updatePoint = async (money: number) => {
-  const token = await AsyncStorage.getItem('accesstoken');
-  const jsonParser = token && (await JSON.parse(token));
-  return await point({
-    method: 'post',
-    url: '/',
-    data: {money},
-    headers: {
-      accessToken: jsonParser,
-    },
-  });
+  try {
+    const token = await AsyncStorage.getItem('accesstoken');
+    const jsonParser = token && (await JSON.parse(token));
+    return await point({
+      method: 'post',
+      url: '/',
+      data: {money},
+      headers: {
+        accessToken: jsonParser,
+      },
+    });
+  } catch (err) {
+    console.log(err);
+  }
 };

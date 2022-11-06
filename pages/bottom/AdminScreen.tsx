@@ -9,6 +9,7 @@ import {
   Alert,
 } from 'react-native';
 import {deleteUser, findUser} from '../../api/auth';
+import {updatePoint} from '../../api/point';
 import constant from '../../common/constant';
 
 export default function AdminScreen({navigation}: any) {
@@ -59,9 +60,14 @@ export default function AdminScreen({navigation}: any) {
       },
       {
         text: '네',
-        onPress: () => console.log(2),
+        onPress: (value: any) => updatePointFunc(value),
       },
     ]);
+  };
+
+  const updatePointFunc = (value: string) => {
+    const {data}: any = updatePoint(Number(value));
+    return Alert.alert('충전 완료');
   };
 
   const onPressDelete = () => {
