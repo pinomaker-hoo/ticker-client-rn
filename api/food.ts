@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 const food = axios.create({
-  baseURL: 'http://localhost:3050/food',
+  baseURL: 'http://210.90.136.10:3050/food',
   withCredentials: true,
   headers: {},
 });

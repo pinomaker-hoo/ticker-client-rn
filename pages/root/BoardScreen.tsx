@@ -16,7 +16,7 @@ export default function BoardScreen({navigation}: any) {
 
   useEffect(() => {
     callApi();
-  }, [loading]);
+  }, [data]);
 
   const callApi = async () => {
     const {data}: any = await getBoardList();

@@ -50,7 +50,7 @@ export default function TicketScreen({navigation}: any) {
             {data
               .filter((item: any) => item.used > 0)
               .map((item: any) => (
-                <View style={styles.ticket}>
+                <View style={styles.ticket} key={item.idx}>
                   <Ticket2 data={item} onPress={onPressTicket} />
                 </View>
               ))}

@@ -19,7 +19,7 @@ export default function AdminScreen({navigation}: any) {
 
   useEffect(() => {
     callApi();
-  }, []);
+  }, [user]);
 
   const callApi = async () => {
     const {data}: any = await findUser();
@@ -125,7 +125,7 @@ export default function AdminScreen({navigation}: any) {
             <Image
               style={styles.img}
               source={{
-                uri: `http://localhost:3050${user.image.substr(1)}.jpg`,
+                uri: `http://210.90.136.10:3050${user.image.substr(1)}.jpg`,
               }}
             />
           ) : (

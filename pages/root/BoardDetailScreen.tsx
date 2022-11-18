@@ -72,7 +72,7 @@ export default function BoardDetailScreen(props: any) {
             <Image
               style={styles.topImage}
               source={{
-                uri: `http://localhost:3050${props.route.params.data.user.image.substr(
+                uri: `http://210.90.136.10:3050${props.route.params.data.user.image.substr(
                   1,
                 )}.jpg`,
               }}

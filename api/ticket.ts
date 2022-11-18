@@ -3,13 +3,13 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const ticket = axios.create({
-  baseURL: 'http://localhost:3050/ticket',
+  baseURL: 'http://210.90.136.10:3050/ticket',
   withCredentials: true,
   headers: {},
 });
 
 const ticketUser = axios.create({
-  baseURL: 'http://localhost:3050/ticketUser',
+  baseURL: 'http://210.90.136.10:3050/ticketUser',
   withCredentials: true,
   headers: {},
 });

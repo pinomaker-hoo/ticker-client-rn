@@ -3,6 +3,7 @@
 #import <React/RCTBridge.h>
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
+#import "RNSplashScreen.h"
 //#import <RNKakaoLogins.h>
 #import <React/RCTAppSetupUtils.h>
 #import <NaverThirdPartyLogin/NaverThirdPartyLoginConnection.h>
@@ -38,6 +39,7 @@ static NSString *const kRNConcurrentRoot = @"concurrentRoot";
     if ([url.scheme isEqualToString:@"your_apps_urlscheme"]) {
       return [[NaverThirdPartyLoginConnection getSharedInstance] application:application openURL:url options:options];
     }
+    [RNSplashScreen show];
      return YES;
   }
 

@@ -12,7 +12,7 @@ export default function Board(props: any) {
         {props.data.imgPath1 ? (
           <Image
             source={{
-              uri: `http://localhost:3050${props.data.imgPath1.substr(1)}.jpg`,
+              uri: `http://210.90.136.10:3050${props.data.imgPath1.substr(1)}.jpg`,
             }}
             style={styles.boardImg}
           />

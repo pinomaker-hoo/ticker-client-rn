@@ -38,14 +38,14 @@ export default function LoginScreen({navigation}: any) {
 
   const naverLoginBtnClick = async (props: any) => {
     NaverLogin.login(props, (err, token: any) => {
-      setNaverToken(token);
       if (err) console.log(err);
+      getUserProfile(token);
     });
-    await getUserProfile();
   };
 
-  const getUserProfile = async () => {
-    const profileResult = await getProfile(naverToken.accessToken);
+  const getUserProfile = async (token: any) => {
+    const {accessToken} = await token;
+    const profileResult = await getProfile(accessToken);
     if (profileResult.resultcode === '024') {
       Alert.alert('로그인 실패', profileResult.message);
       return;

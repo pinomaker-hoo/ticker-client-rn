@@ -3,7 +3,7 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const auth = axios.create({
-  baseURL: 'http://localhost:3050/auth',
+  baseURL: 'http://210.90.136.10:3050/auth',
   withCredentials: true,
   headers: {},
 });

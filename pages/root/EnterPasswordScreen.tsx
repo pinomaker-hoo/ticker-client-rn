@@ -10,7 +10,7 @@ export default function EnterPasswordScreen(props: any) {
     const str = arr.join('');
     const user = await AsyncStorage.getItem('user');
     const {pass} = user && (await JSON.parse(user));
-    if (str !== pass) return Alert.alert('비밀번호가 맞지 않습니다.');
+    // if (str !== pass) return Alert.alert('비밀번호가 맞지 않습니다.');
     const {data}: any = await buyTicket(props.route.params.data);
     if (data) props.navigation.navigate('Bottom');
   };
